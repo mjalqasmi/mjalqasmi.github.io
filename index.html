@@ -1,1 +1,306 @@
-# mjalqasmi.github.io
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Video Courses Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #ffffff;
+            --bg-subtle: #f9f9f9;
+            --border-color: #e5e5e5;
+            --border-active: #111111;
+            --text-primary: #111111;
+            --text-secondary: #666666;
+            --text-muted: #888888;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Fixed Top Header */
+        header {
+            flex-shrink: 0;
+            background: var(--bg-main);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 100;
+        }
+
+        .top-bar {
+            padding: 0.9rem 1rem;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .brand-name {
+            font-size: 1.05rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            text-decoration: none;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        /* Responsive Fixed Grid Tabs */
+        .tabs-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 0.25rem;
+            border-top: 1px solid var(--border-color);
+            width: 100%;
+        }
+
+        .tab-btn {
+            flex: 1;
+            text-align: center;
+            background: none;
+            border: none;
+            padding: 0.65rem 0.05rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            white-space: nowrap;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn.active {
+            color: var(--text-primary);
+            border-bottom-color: var(--border-active);
+        }
+
+        /* Main Viewport for Horizontal Panes */
+        .sections-viewport {
+            flex: 1;
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+        }
+
+        .sections-viewport::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Individual Category Pane */
+        .section-pane {
+            flex: 0 0 100%;
+            width: 100%;
+            height: 100%;
+            scroll-snap-align: start;
+            overflow-y: auto;
+            padding: 0; /* Unpadded for edge-to-edge YouTube style */
+            background: var(--bg-main);
+        }
+
+        /* Vertical Stack for Video Items (YouTube Style) */
+        .videos-vertical-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            padding-bottom: 3rem;
+        }
+
+        /* YouTube Style Full Width Video Item */
+        .video-card {
+            width: 100%;
+            background: var(--bg-main);
+            border: none;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .thumbnail-box {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: var(--bg-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .play-icon {
+            width: 36px;
+            height: 36px;
+            stroke: var(--text-muted);
+            stroke-width: 1.5;
+            fill: none;
+        }
+
+        .video-info {
+            padding: 0.75rem 1rem 0 1rem;
+        }
+
+        .video-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: var(--text-primary);
+        }
+
+        .video-desc {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header & Navigation -->
+    <header>
+        <div class="top-bar">
+            <!-- Brand title aligned to the left -->
+            <a href="#" class="brand-name">mjalqasmi Academy</a>
+        </div>
+
+        <!-- Fully Visible Horizontal 4 Tabs Bar -->
+        <nav class="tabs-nav" id="tabsNav">
+            <button class="tab-btn active" onclick="scrollToPane(0)">Cloud & data</button>
+            <button class="tab-btn" onclick="scrollToPane(1)">Cybersecurity</button>
+            <button class="tab-btn" onclick="scrollToPane(2)">Networking</button>
+            <button class="tab-btn" onclick="scrollToPane(3)">Artificial Intelligence</button>
+        </nav>
+    </header>
+
+    <!-- Main Viewport (Horizontal Scroll Between Panes) -->
+    <main class="sections-viewport" id="viewport">
+
+        <!-- Pane 1: Cloud & Data -->
+        <section class="section-pane">
+            <div class="videos-vertical-stack">
+                <a href="#" class="video-card">
+                    <div class="thumbnail-box">
+                        <svg class="play-icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">Introduction to Cloud Architecture</h3>
+                        <p class="video-desc">Overview of cloud infrastructure and architectural design fundamentals.</p>
+                    </div>
+                </a>
+                <a href="#" class="video-card">
+                    <div class="thumbnail-box">
+                        <svg class="play-icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">Data Warehousing Basics</h3>
+                        <p class="video-desc">How to structure and optimize enterprise data stores in the cloud.</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Pane 2: Cybersecurity -->
+        <section class="section-pane">
+            <div class="videos-vertical-stack">
+                <a href="#" class="video-card">
+                    <div class="thumbnail-box">
+                        <svg class="play-icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">Zero Trust Security Model</h3>
+                        <p class="video-desc">Implementing zero trust policies across enterprise environments.</p>
+                    </div>
+                </a>
+                <a href="#" class="video-card">
+                    <div class="thumbnail-box">
+                        <svg class="play-icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">IAM & Access Control</h3>
+                        <p class="video-desc">Managing identity access and security permissions efficiently.</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Pane 3: Networking -->
+        <section class="section-pane">
+            <div class="videos-vertical-stack">
+                <a href="#" class="video-card">
+                    <div class="thumbnail-box">
+                        <svg class="play-icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">VPC & Cloud Routing</h3>
+                        <p class="video-desc">Designing virtual private networks and cloud routing tables.</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Pane 4: Artificial Intelligence -->
+        <section class="section-pane">
+            <div class="videos-vertical-stack">
+                <a href="#" class="video-card">
+                    <div class="thumbnail-box">
+                        <svg class="play-icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">Deploying LLMs on Cloud</h3>
+                        <p class="video-desc">Hosting and scaling large language models on cloud servers.</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        const viewport = document.getElementById('viewport');
+        const tabBtns = document.querySelectorAll('.tab-btn');
+
+        function scrollToPane(index) {
+            const paneWidth = viewport.clientWidth;
+            viewport.scrollTo({
+                left: paneWidth * index,
+                behavior: 'smooth'
+            });
+            updateActiveTab(index);
+        }
+
+        viewport.addEventListener('scroll', () => {
+            const paneWidth = viewport.clientWidth;
+            const currentIndex = Math.round(viewport.scrollLeft / paneWidth);
+            updateActiveTab(currentIndex);
+        });
+
+        function updateActiveTab(index) {
+            tabBtns.forEach((btn, i) => {
+                if(i === index) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
