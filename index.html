@@ -37,13 +37,13 @@
             overflow: hidden;
         }
 
-        /* App Container Fixed to Center Third of the Screen */
+        /* App Container Fixed to Center with +25% Horizontal Width */
         .app-container {
             width: 100%;
-            max-width: 33vw; /* ينكمش حرفياً ليأخذ الثلث الأوسط أفقياً في الحاسوب */
-            min-width: 360px; /* ضمان عدم انكماشه بشكل مفرط في الشاشات الصغيرة */
+            max-width: 41.25vw; /* تم تكبير الحجم الأفقي بمقدار الربع من العرض السابق */
+            min-width: 450px; 
             height: 100vh;
-            margin: 0 auto; /* للتوسيط الأفق التام */
+            margin: 0 auto;
             background-color: var(--bg-main);
             display: flex;
             flex-direction: column;
@@ -207,7 +207,7 @@
         <header>
             <div class="top-bar">
                 <!-- Brand title aligned to the left -->
-                <a href="#" class="brand-name">1111 Academy</a>
+                <a href="#" class="brand-name">mjalqadmi Academy</a>
             </div>
 
             <!-- Fully Visible Horizontal 4 Tabs Bar -->
