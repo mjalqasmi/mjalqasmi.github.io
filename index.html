@@ -6,7 +6,7 @@
     <title>mjalqasmi Academy</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-main: #ffffff;
@@ -19,6 +19,7 @@
             --text-muted: #888888;
             --bg-outer: #f4f4f5;
             --shadow: 0 0 30px rgba(0, 0, 0, 0.08);
+            --font: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
         }
 
         @media (prefers-color-scheme: dark) {
@@ -36,11 +37,15 @@
             }
         }
 
+        html[lang="ar"] {
+            --font: 'IBM Plex Sans Arabic', 'Plus Jakarta Sans', system-ui, sans-serif;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            font-family: var(--font);
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -88,7 +93,7 @@
         }
 
         .top-bar {
-            padding: 0.9rem 1rem;
+            padding: 0.8rem 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -99,6 +104,7 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
             font-size: 1.05rem;
             font-weight: 700;
             letter-spacing: -0.02em;
@@ -123,6 +129,12 @@
             margin-left: 2px;
         }
 
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
         .lesson-count {
             font-size: 0.72rem;
             font-weight: 500;
@@ -130,34 +142,79 @@
             white-space: nowrap;
         }
 
-        .tabs-nav {
+        .lang-switch {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 0.25rem;
-            border-top: 1px solid var(--border-color);
-            width: 100%;
+            padding: 2px;
+            border-radius: 999px;
+            background: var(--bg-subtle);
+            border: 1px solid var(--border-color);
         }
 
+        .lang-btn {
+            border: none;
+            background: none;
+            padding: 0.2rem 0.65rem;
+            border-radius: 999px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .lang-btn[data-lang="ar"] { font-family: 'IBM Plex Sans Arabic', sans-serif; }
+        .lang-btn[data-lang="en"] { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        .lang-btn.active {
+            background: var(--bg-main);
+            color: var(--text-primary);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+        }
+
+        /* Tabs: width follows the label, equal spacing, scrolls if they overflow */
+        .tabs-nav {
+            display: flex;
+            align-items: center;
+            border-top: 1px solid var(--border-color);
+            width: 100%;
+            overflow-x: auto;
+            scrollbar-width: none;
+            padding: 0 0.5rem;
+        }
+
+        .tabs-nav::-webkit-scrollbar { display: none; }
+
         .tab-btn {
-            flex: 1;
-            text-align: center;
+            flex: 0 0 auto;
+            position: relative;
             background: none;
             border: none;
-            padding: 0.65rem 0.05rem;
-            font-size: 0.7rem;
+            padding: 0.7rem 0.9rem;
+            font-size: 0.75rem;
             font-weight: 600;
             color: var(--text-secondary);
             cursor: pointer;
             white-space: nowrap;
-            border-bottom: 2px solid transparent;
-            transition: all 0.2s ease;
+            transition: color 0.2s ease;
         }
 
-        .tab-btn.active {
-            color: var(--text-primary);
-            border-bottom-color: var(--border-active);
+        /* centre the row when it fits, still scrollable when it doesn't */
+        .tab-btn:first-child { margin-inline-start: auto; }
+        .tab-btn:last-child { margin-inline-end: auto; }
+
+        .tab-btn::after {
+            content: "";
+            position: absolute;
+            inset-inline: 0.9rem;
+            bottom: 0;
+            height: 2px;
+            border-radius: 2px;
+            background: transparent;
+            transition: background 0.2s ease;
         }
+
+        .tab-btn.active { color: var(--text-primary); }
+        .tab-btn.active::after { background: var(--border-active); }
 
         /* Horizontal panes */
         .sections-viewport {
@@ -195,7 +252,6 @@
         .video-card {
             width: 100%;
             background: var(--bg-main);
-            border: none;
             text-decoration: none;
             color: inherit;
             display: flex;
@@ -250,7 +306,7 @@
 
         .lesson-no {
             position: absolute;
-            left: 0.6rem;
+            inset-inline-start: 0.6rem;
             bottom: 0.6rem;
             background: rgba(0, 0, 0, 0.75);
             color: #fff;
@@ -264,6 +320,13 @@
             padding: 0.75rem 1rem 0 1rem;
         }
 
+        .video-cat {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 0.15rem;
+        }
+
         .video-title {
             font-size: 0.95rem;
             font-weight: 600;
@@ -274,7 +337,7 @@
         .video-desc {
             font-size: 0.8rem;
             color: var(--text-secondary);
-            line-height: 1.4;
+            line-height: 1.5;
         }
 
         .empty-state {
@@ -297,7 +360,10 @@
             visibility: hidden;
         }
 
-        .watch-view.open {
+        [dir="rtl"] .watch-view { transform: translateX(-100%); }
+
+        .watch-view.open,
+        [dir="rtl"] .watch-view.open {
             transform: translateX(0);
             visibility: visible;
         }
@@ -332,6 +398,8 @@
             stroke-width: 2;
             fill: none;
         }
+
+        [dir="rtl"] .back-btn svg { transform: scaleX(-1); }
 
         .watch-cat {
             font-size: 0.8rem;
@@ -374,6 +442,7 @@
         .watch-desc {
             font-size: 0.85rem;
             color: var(--text-secondary);
+            line-height: 1.6;
         }
 
         .watch-nav {
@@ -406,8 +475,7 @@
             padding: 1rem 1rem 0.5rem;
             font-size: 0.75rem;
             font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
+            letter-spacing: 0.04em;
             color: var(--text-muted);
         }
 
@@ -467,11 +535,17 @@
     <div class="app-container">
         <header>
             <div class="top-bar">
-                <a href="#" class="brand-name" id="brand">
+                <a href="#" class="brand-name" id="brand" dir="ltr">
                     <span class="brand-mark"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21"/></svg></span>
                     <span id="brandText"></span>
                 </a>
-                <span class="lesson-count" id="lessonCount"></span>
+                <div class="top-actions">
+                    <span class="lesson-count" id="lessonCount"></span>
+                    <div class="lang-switch" dir="ltr" role="group" aria-label="Language">
+                        <button class="lang-btn" data-lang="en">EN</button>
+                        <button class="lang-btn" data-lang="ar">عربي</button>
+                    </div>
+                </div>
             </div>
             <nav class="tabs-nav" id="tabsNav"></nav>
         </header>
@@ -481,7 +555,7 @@
         <!-- Watch view -->
         <section class="watch-view" id="watchView" aria-hidden="true">
             <div class="watch-bar">
-                <button class="back-btn" id="backBtn" aria-label="Back">
+                <button class="back-btn" id="backBtn">
                     <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
                 </button>
                 <span class="watch-cat" id="watchCat"></span>
@@ -492,11 +566,11 @@
                     <h1 class="watch-title" id="watchTitle"></h1>
                     <p class="watch-desc" id="watchDesc"></p>
                     <div class="watch-nav">
-                        <button class="nav-btn" id="prevBtn">Previous</button>
-                        <button class="nav-btn primary" id="nextBtn">Next lesson</button>
+                        <button class="nav-btn" id="prevBtn"></button>
+                        <button class="nav-btn primary" id="nextBtn"></button>
                     </div>
                 </div>
-                <div class="up-next-label">Lessons in this section</div>
+                <div class="up-next-label" id="upNextLabel"></div>
                 <div id="playlist"></div>
             </div>
         </section>
@@ -504,7 +578,7 @@
 
     <script>
 // ============================================================
-//  Academy content — edit this file only to add / remove lessons
+//  Academy content — edit this part only to add / remove lessons
 // ============================================================
 //
 //  CUSTOMER_CODE (optional): the "customer-xxxx" part of your Cloudflare
@@ -513,8 +587,8 @@
 //
 //  Each lesson needs:
 //    id    – Cloudflare Stream video UID (32 hex chars)
-//    title – lesson title
-//    desc  – short description (optional)
+//    title – lesson title in English (en) and Arabic (ar)
+//    desc  – short description in both languages (optional)
 //    cat   – index of the category below (0, 1, 2, 3 ...)
 //            (an "All" tab showing every lesson is added automatically)
 
@@ -524,21 +598,62 @@ window.ACADEMY = {
   CUSTOMER_CODE: "",
 
   categories: [
-    "Cloud & data",
-    "Cybersecurity",
-    "Networking",
-    "AI"
+    { en: "Cloud & data",  ar: "السحابة والبيانات" },
+    { en: "Cybersecurity", ar: "الأمن السيبراني" },
+    { en: "Networking",    ar: "الشبكات" },
+    { en: "AI",            ar: "الذكاء الاصطناعي" }
   ],
 
   videos: [
-    { id: "3cd7c0e565cb68a313036a236b6938a3", title: "Enterprise Database Administration & Query Optimization", desc: "", cat: 0 },
-    { id: "89e47436f0c7a561ce3454b89acb07e5", title: "Automated Disaster Recovery & Encrypted Cloud Backups", desc: "", cat: 0 },
-    { id: "892a776d25f5e8b350380b27a7f5e168", title: "Digital Media Forensics & EXIF Metadata Management", desc: "", cat: 1 },
+    {
+      id: "3cd7c0e565cb68a313036a236b6938a3",
+      title: { en: "Enterprise Database Administration & Query Optimization", ar: "إدارة قواعد البيانات المؤسسية وتحسين الاستعلامات" },
+      desc:  { en: "", ar: "" },
+      cat: 0
+    },
+    {
+      id: "89e47436f0c7a561ce3454b89acb07e5",
+      title: { en: "Automated Disaster Recovery & Encrypted Cloud Backups", ar: "التعافي الآلي من الكوارث والنسخ الاحتياطي السحابي المشفّر" },
+      desc:  { en: "", ar: "" },
+      cat: 0
+    },
+    {
+      id: "892a776d25f5e8b350380b27a7f5e168",
+      title: { en: "Digital Media Forensics & EXIF Metadata Management", ar: "التحليل الجنائي للوسائط الرقمية وإدارة بيانات EXIF الوصفية" },
+      desc:  { en: "", ar: "" },
+      cat: 1
+    },
   ]
 };
     </script>
     <script>
         const A = window.ACADEMY;
+
+        const UI = {
+            en: {
+                all: 'All',
+                count: n => `${n} lesson${n === 1 ? '' : 's'}`,
+                lesson: n => `Lesson ${n}`,
+                prev: 'Previous',
+                next: 'Next lesson',
+                inSection: 'Lessons in this section',
+                nowPlaying: 'Now playing',
+                soon: 'Lessons coming soon.',
+                back: 'Back'
+            },
+            ar: {
+                all: 'الكل',
+                count: n => n === 1 ? 'درس واحد' : n === 2 ? 'درسان' : n <= 10 ? `${n} دروس` : `${n} درساً`,
+                lesson: n => `الدرس ${n}`,
+                prev: 'السابق',
+                next: 'الدرس التالي',
+                inSection: 'دروس هذا القسم',
+                nowPlaying: 'قيد التشغيل',
+                soon: 'الدروس قادمة قريباً.',
+                back: 'رجوع'
+            }
+        };
+
         const base = A.CUSTOMER_CODE
             ? `https://customer-${A.CUSTOMER_CODE}.cloudflarestream.com`
             : 'https://videodelivery.net';
@@ -551,7 +666,6 @@ window.ACADEMY = {
         const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
         const byCat = A.categories.map((_, i) => A.videos.filter(v => v.cat === i));
-        const tabs = ['All', ...A.categories];
         const panes = [A.videos, ...byCat];
 
         const viewport = document.getElementById('viewport');
@@ -559,64 +673,116 @@ window.ACADEMY = {
         const watchView = document.getElementById('watchView');
         const playerBox = document.getElementById('playerBox');
 
-        document.title = A.brand;
-        document.getElementById('brandText').textContent = A.brand;
-        document.getElementById('lessonCount').textContent =
-            `${A.videos.length} lesson${A.videos.length === 1 ? '' : 's'}`;
+        let lang = 'en';
+        try { lang = localStorage.getItem('academy-lang') || ''; } catch (e) {}
+        if (!UI[lang]) lang = (navigator.language || '').startsWith('ar') ? 'ar' : 'en';
 
-        // Tabs + panes
-        tabsNav.innerHTML = tabs.map((c, i) =>
-            `<button class="tab-btn${i === 0 ? ' active' : ''}" data-i="${i}">${esc(c)}</button>`).join('');
+        let currentPane = 0;
+        let currentVideo = null;
 
-        viewport.innerHTML = panes.map(list => `
-            <section class="section-pane">
-                <div class="videos-vertical-stack">
-                    ${list.length ? list.map((v, n) => `
-                        <a href="#v=${esc(v.id)}" class="video-card">
-                            <div class="thumbnail-box">
-                                <img src="${thumbUrl(v.id, 480)}" alt="" loading="lazy" onerror="this.remove()">
-                                <span class="play-badge"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21"/></svg></span>
-                                <span class="lesson-no">Lesson ${n + 1}</span>
-                            </div>
-                            <div class="video-info">
-                                <h3 class="video-title">${esc(v.title)}</h3>
-                                ${v.desc ? `<p class="video-desc">${esc(v.desc)}</p>` : ''}
-                            </div>
-                        </a>`).join('') : `<div class="empty-state">Lessons coming soon.</div>`}
-                </div>
-            </section>`).join('');
+        // pick the text for the current language (falls back to the other one)
+        const tr = obj => typeof obj === 'string' ? obj : (obj?.[lang] || obj?.en || obj?.ar || '');
+        const t = () => UI[lang];
+        const isRtl = () => lang === 'ar';
 
-        const tabBtns = tabsNav.querySelectorAll('.tab-btn');
+        function renderList() {
+            const tabs = [t().all, ...A.categories.map(tr)];
+
+            tabsNav.innerHTML = tabs.map((c, i) =>
+                `<button class="tab-btn${i === currentPane ? ' active' : ''}" data-i="${i}">${esc(c)}</button>`).join('');
+            tabsNav.querySelectorAll('.tab-btn').forEach(btn =>
+                btn.addEventListener('click', () => scrollToPane(+btn.dataset.i)));
+
+            viewport.innerHTML = panes.map((list, p) => `
+                <section class="section-pane">
+                    <div class="videos-vertical-stack">
+                        ${list.length ? list.map((v, n) => `
+                            <a href="#v=${esc(v.id)}" class="video-card">
+                                <div class="thumbnail-box">
+                                    <img src="${thumbUrl(v.id, 480)}" alt="" loading="lazy" onerror="this.remove()">
+                                    <span class="play-badge"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21"/></svg></span>
+                                    <span class="lesson-no">${esc(t().lesson(n + 1))}</span>
+                                </div>
+                                <div class="video-info">
+                                    ${p === 0 ? `<div class="video-cat">${esc(tr(A.categories[v.cat]))}</div>` : ''}
+                                    <h3 class="video-title">${esc(tr(v.title))}</h3>
+                                    ${tr(v.desc) ? `<p class="video-desc">${esc(tr(v.desc))}</p>` : ''}
+                                </div>
+                            </a>`).join('') : `<div class="empty-state">${esc(t().soon)}</div>`}
+                    </div>
+                </section>`).join('');
+
+            document.getElementById('lessonCount').textContent = t().count(A.videos.length);
+            document.getElementById('upNextLabel').textContent = t().inSection;
+            document.getElementById('backBtn').setAttribute('aria-label', t().back);
+            document.getElementById('prevBtn').textContent = t().prev;
+            document.getElementById('nextBtn').textContent = t().next;
+
+            jumpToPane(currentPane);
+        }
+
+        function setLang(l) {
+            lang = l;
+            try { localStorage.setItem('academy-lang', l); } catch (e) {}
+            document.documentElement.lang = l;
+            document.documentElement.dir = isRtl() ? 'rtl' : 'ltr';
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === l));
+            renderList();
+            if (currentVideo) openVideo(currentVideo.id, true);
+            else document.title = A.brand;
+        }
+
+        document.querySelectorAll('.lang-btn').forEach(b =>
+            b.addEventListener('click', () => b.dataset.lang !== lang && setLang(b.dataset.lang)));
+
+        // RTL scroll offsets are negative in modern browsers
+        const paneOffset = i => (isRtl() ? -1 : 1) * viewport.clientWidth * i;
 
         function updateActiveTab(index) {
-            tabBtns.forEach((btn, i) => btn.classList.toggle('active', i === index));
+            if (index === currentPane && tabsNav.querySelector('.tab-btn.active')) return;
+            currentPane = index;
+            tabsNav.querySelectorAll('.tab-btn').forEach((btn, i) => {
+                btn.classList.toggle('active', i === index);
+                if (i === index) btn.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
+            });
         }
 
         function scrollToPane(index) {
-            viewport.scrollTo({ left: viewport.clientWidth * index, behavior: 'smooth' });
+            viewport.scrollTo({ left: paneOffset(index), behavior: 'smooth' });
             updateActiveTab(index);
         }
 
-        tabBtns.forEach(btn => btn.addEventListener('click', () => scrollToPane(+btn.dataset.i)));
+        function jumpToPane(index) {
+            viewport.style.scrollBehavior = 'auto';
+            viewport.scrollLeft = paneOffset(index);
+            viewport.style.scrollBehavior = '';
+        }
 
         viewport.addEventListener('scroll', () => {
-            updateActiveTab(Math.round(viewport.scrollLeft / viewport.clientWidth));
+            const i = Math.round(Math.abs(viewport.scrollLeft) / viewport.clientWidth);
+            if (i !== currentPane) updateActiveTab(i);
         });
 
+        window.addEventListener('resize', () => jumpToPane(currentPane));
+
         // Watch view
-        function openVideo(id) {
+        function openVideo(id, keepPlayer) {
             const v = A.videos.find(x => x.id === id);
             if (!v) return closeVideo();
             const list = byCat[v.cat] || [v];
             const idx = list.indexOf(v);
 
-            playerBox.innerHTML = `<iframe src="${embedUrl(v.id)}" loading="lazy"
-                allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-                allowfullscreen></iframe>`;
+            if (!keepPlayer || currentVideo !== v) {
+                playerBox.innerHTML = `<iframe src="${embedUrl(v.id)}"
+                    allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+                    allowfullscreen></iframe>`;
+                document.getElementById('watchScroll').scrollTop = 0;
+            }
+            currentVideo = v;
 
-            document.getElementById('watchCat').textContent = A.categories[v.cat] || '';
-            document.getElementById('watchTitle').textContent = v.title;
-            document.getElementById('watchDesc').textContent = v.desc || '';
+            document.getElementById('watchCat').textContent = tr(A.categories[v.cat]);
+            document.getElementById('watchTitle').textContent = tr(v.title);
+            document.getElementById('watchDesc').textContent = tr(v.desc);
 
             const prev = list[idx - 1], next = list[idx + 1];
             const prevBtn = document.getElementById('prevBtn');
@@ -630,30 +796,28 @@ window.ACADEMY = {
                 <div class="row-item${x === v ? ' current' : ''}" data-id="${esc(x.id)}">
                     <div class="row-thumb"><img src="${thumbUrl(x.id, 180)}" alt="" loading="lazy" onerror="this.remove()"></div>
                     <div class="row-text">
-                        <div class="row-title">${esc(x.title)}</div>
-                        <div class="row-meta">${x === v ? '<span class="now-playing">Now playing</span>' : `Lesson ${n + 1}`}</div>
+                        <div class="row-title">${esc(tr(x.title))}</div>
+                        <div class="row-meta">${x === v ? `<span class="now-playing">${esc(t().nowPlaying)}</span>` : esc(t().lesson(n + 1))}</div>
                     </div>
                 </div>`).join('');
 
             document.querySelectorAll('.row-item').forEach(r =>
                 r.addEventListener('click', () => location.hash = 'v=' + r.dataset.id));
 
-            document.title = `${v.title} · ${A.brand}`;
-            document.getElementById('watchScroll').scrollTop = 0;
+            document.title = `${tr(v.title)} · ${A.brand}`;
             watchView.classList.add('open');
             watchView.setAttribute('aria-hidden', 'false');
         }
 
         function closeVideo() {
+            currentVideo = null;
             watchView.classList.remove('open');
             watchView.setAttribute('aria-hidden', 'true');
             playerBox.innerHTML = '';
             document.title = A.brand;
         }
 
-        document.getElementById('backBtn').addEventListener('click', () => {
-            location.hash = '';
-        });
+        document.getElementById('backBtn').addEventListener('click', () => location.hash = '');
 
         document.getElementById('brand').addEventListener('click', e => {
             e.preventDefault();
@@ -665,6 +829,8 @@ window.ACADEMY = {
             m ? openVideo(m[1]) : closeVideo();
         }
 
+        document.getElementById('brandText').textContent = A.brand;
+        setLang(lang);
         window.addEventListener('hashchange', route);
         route();
     </script>
