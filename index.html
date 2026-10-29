@@ -6,46 +6,44 @@
     <title>mjalqasmi Academy</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- One family for both languages (Latin + Arabic) so sizes never change on switch -->
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-main: #ffffff;
-            --bg-subtle: #f4f4f5;
-            --bg-hover: #f9f9f9;
-            --border-color: #e5e5e5;
-            --border-active: #111111;
-            --text-primary: #111111;
-            --text-secondary: #666666;
-            --text-muted: #888888;
-            --bg-outer: #f4f4f5;
-            --shadow: 0 0 30px rgba(0, 0, 0, 0.08);
-            --font: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            --bg-subtle: #f3f4f6;
+            --bg-hover: #f9fafb;
+            --border-color: #e5e7eb;
+            --border-active: #111827;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --text-muted: #6b7280;
+            --bg-outer: #f3f4f6;
+            --shadow: 0 0 0 1px rgba(17, 24, 39, 0.04), 0 8px 30px rgba(17, 24, 39, 0.06);
+            --radius: 6px;
+            --tab-fs: 13px;
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
-                --bg-main: #0f0f10;
-                --bg-subtle: #1c1c1f;
-                --bg-hover: #161618;
-                --border-color: #26262a;
-                --border-active: #f4f4f5;
-                --text-primary: #f4f4f5;
-                --text-secondary: #a1a1aa;
-                --text-muted: #71717a;
-                --bg-outer: #060607;
-                --shadow: 0 0 30px rgba(0, 0, 0, 0.6);
+                --bg-main: #0d0f12;
+                --bg-subtle: #1a1d22;
+                --bg-hover: #14171b;
+                --border-color: #262a31;
+                --border-active: #f3f4f6;
+                --text-primary: #f3f4f6;
+                --text-secondary: #a8b0bc;
+                --text-muted: #7c8592;
+                --bg-outer: #07080a;
+                --shadow: 0 0 0 1px rgba(0, 0, 0, 0.4), 0 8px 30px rgba(0, 0, 0, 0.5);
             }
-        }
-
-        html[lang="ar"] {
-            --font: 'IBM Plex Sans Arabic', 'Plus Jakarta Sans', system-ui, sans-serif;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: var(--font);
+            font-family: 'IBM Plex Sans Arabic', system-ui, -apple-system, 'Segoe UI', sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -54,10 +52,13 @@
             width: 100%;
             background-color: var(--bg-outer);
             color: var(--text-primary);
-            line-height: 1.5;
             -webkit-font-smoothing: antialiased;
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
             overflow: hidden;
         }
+
+        button { font: inherit; }
 
         .app-container {
             width: 100%;
@@ -71,19 +72,16 @@
             position: relative;
             overflow: hidden;
             box-shadow: var(--shadow);
-            border-left: 1px solid var(--border-color);
-            border-right: 1px solid var(--border-color);
         }
 
         @media (max-width: 1024px) {
             .app-container {
                 max-width: 100%;
-                border: none;
                 box-shadow: none;
             }
         }
 
-        /* Header */
+        /* ---------- Header (layout identical in every language) ---------- */
         header {
             flex-shrink: 0;
             background: var(--bg-main);
@@ -92,25 +90,24 @@
         }
 
         .top-bar {
-            padding: 0.8rem 1rem;
-            padding-top: max(0.8rem, env(safe-area-inset-top));
-            padding-left: max(1rem, env(safe-area-inset-left));
-            padding-right: max(1rem, env(safe-area-inset-right));
+            height: 56px;
+            box-sizing: content-box;
+            padding: env(safe-area-inset-top) max(16px, env(safe-area-inset-right)) 0 max(16px, env(safe-area-inset-left));
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 1rem;
+            gap: 12px;
         }
 
         .brand-name {
             min-width: 0;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-            font-size: 1.05rem;
+            gap: 10px;
+            font-size: 16px;
+            line-height: 24px;
             font-weight: 700;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.01em;
             color: var(--text-primary);
             text-decoration: none;
             white-space: nowrap;
@@ -123,9 +120,9 @@
 
         .brand-mark {
             flex-shrink: 0;
-            width: 22px;
-            height: 22px;
-            border-radius: 6px;
+            width: 26px;
+            height: 26px;
+            border-radius: 5px;
             background: var(--text-primary);
             display: grid;
             place-items: center;
@@ -142,55 +139,57 @@
             flex-shrink: 0;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 12px;
         }
 
         .lesson-count {
-            font-size: 0.72rem;
+            width: 72px;
+            text-align: right;
+            font-size: 12px;
+            line-height: 16px;
             font-weight: 500;
             color: var(--text-muted);
             white-space: nowrap;
+            overflow: hidden;
         }
 
         .lang-switch {
             display: flex;
-            padding: 2px;
-            border-radius: 999px;
-            background: var(--bg-subtle);
             border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            overflow: hidden;
         }
 
         .lang-btn {
+            width: 52px;
+            height: 30px;
             border: none;
-            background: none;
-            padding: 0.2rem 0.65rem;
-            border-radius: 999px;
-            font-size: 0.72rem;
+            background: var(--bg-main);
+            font-size: 12px;
+            line-height: 30px;
             font-weight: 600;
-            color: var(--text-secondary);
+            color: var(--text-muted);
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: background 0.15s ease, color 0.15s ease;
         }
 
-        .lang-btn[data-lang="ar"] { font-family: 'IBM Plex Sans Arabic', sans-serif; }
-        .lang-btn[data-lang="en"] { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .lang-btn + .lang-btn { border-left: 1px solid var(--border-color); }
 
         .lang-btn.active {
-            background: var(--bg-main);
-            color: var(--text-primary);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+            background: var(--text-primary);
+            color: var(--bg-main);
         }
 
-        /* Tabs: width follows the label, equal spacing, scrolls if they overflow */
+        /* ---------- Tabs: equal gaps, all visible, same font size in both languages ---------- */
         .tabs-nav {
             display: flex;
-            align-items: center;
+            justify-content: space-between;
+            align-items: stretch;
+            height: 44px;
             border-top: 1px solid var(--border-color);
-            width: 100%;
+            padding: 0 max(8px, env(safe-area-inset-right)) 0 max(8px, env(safe-area-inset-left));
             overflow-x: auto;
             scrollbar-width: none;
-            padding: 0 0.5rem;
-            overscroll-behavior-x: contain;
         }
 
         .tabs-nav::-webkit-scrollbar { display: none; }
@@ -200,34 +199,32 @@
             position: relative;
             background: none;
             border: none;
-            padding: 0.7rem 0.9rem;
-            font-size: 0.75rem;
+            padding: 0 8px;
+            font-size: var(--tab-fs);
+            line-height: 44px;
             font-weight: 600;
-            color: var(--text-secondary);
+            color: var(--text-muted);
             cursor: pointer;
             white-space: nowrap;
-            transition: color 0.2s ease;
+            transition: color 0.15s ease;
         }
-
-        /* centre the row when it fits, still scrollable when it doesn't */
-        .tab-btn:first-child { margin-inline-start: auto; }
-        .tab-btn:last-child { margin-inline-end: auto; }
 
         .tab-btn::after {
             content: "";
             position: absolute;
-            inset-inline: 0.9rem;
-            bottom: 0;
+            left: 8px;
+            right: 8px;
+            bottom: -1px;
             height: 2px;
-            border-radius: 2px;
             background: transparent;
-            transition: background 0.2s ease;
+            transition: background 0.15s ease;
         }
 
+        .tab-btn:hover { color: var(--text-secondary); }
         .tab-btn.active { color: var(--text-primary); }
         .tab-btn.active::after { background: var(--border-active); }
 
-        /* Horizontal panes */
+        /* ---------- Horizontal panes (swipe between sections) ---------- */
         .sections-viewport {
             flex: 1;
             display: flex;
@@ -243,12 +240,12 @@
 
         .section-pane {
             flex: 0 0 100%;
-            min-width: 100%;
-            max-width: 100%;
+            width: 100%;
             height: 100%;
             scroll-snap-align: start;
+            scroll-snap-stop: always;
             overflow-y: auto;
-            overscroll-behavior: contain;
+            overflow-x: hidden;
             scrollbar-width: thin;
             background: var(--bg-main);
         }
@@ -256,19 +253,16 @@
         .videos-vertical-stack {
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
-            padding-bottom: calc(3rem + env(safe-area-inset-bottom));
-            width: 100%;
+            gap: 24px;
+            padding-bottom: calc(40px + env(safe-area-inset-bottom));
         }
 
-        /* Video card */
+        /* ---------- Video card ---------- */
         .video-card {
-            width: 100%;
-            background: var(--bg-main);
-            text-decoration: none;
-            color: inherit;
             display: flex;
             flex-direction: column;
+            text-decoration: none;
+            color: inherit;
             cursor: pointer;
         }
 
@@ -277,9 +271,8 @@
             width: 100%;
             aspect-ratio: 16 / 9;
             background: var(--bg-subtle);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: grid;
+            place-items: center;
             overflow: hidden;
         }
 
@@ -289,82 +282,100 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.4s ease;
+            transition: opacity 0.2s ease;
         }
 
-        .video-card:hover .thumbnail-box img { transform: scale(1.03); }
+        .video-card:hover .thumbnail-box img { opacity: 0.9; }
 
         .play-badge {
             position: relative;
-            width: 54px;
-            height: 54px;
+            width: 52px;
+            height: 52px;
             border-radius: 50%;
-            background: rgba(17, 17, 17, 0.55);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
+            background: rgba(17, 24, 39, 0.7);
             display: grid;
             place-items: center;
             opacity: 0;
-            transform: scale(0.9);
-            transition: transform 0.2s ease, opacity 0.2s ease;
+            transition: opacity 0.2s ease;
         }
 
         .play-badge svg {
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             fill: #fff;
             margin-left: 3px;
         }
 
-        /* play icon only on hover so it never hides the thumbnail text */
         @media (hover: hover) {
-            .video-card:hover .play-badge { transform: scale(1); opacity: 1; }
+            .video-card:hover .play-badge { opacity: 1; }
         }
 
         .lesson-no {
             position: absolute;
-            inset-inline-start: 0.6rem;
-            bottom: 0.6rem;
-            background: rgba(0, 0, 0, 0.75);
+            left: 10px;
+            bottom: 10px;
+            height: 20px;
+            min-width: 20px;
+            padding: 0 6px;
+            background: rgba(0, 0, 0, 0.78);
             color: #fff;
-            font-size: 0.68rem;
+            font-size: 11px;
+            line-height: 20px;
             font-weight: 600;
-            padding: 0.1rem 0.45rem;
-            border-radius: 4px;
+            border-radius: 3px;
+            text-align: center;
         }
 
+        /* fixed line boxes: text length or language never changes card height */
         .video-info {
-            padding: 0.75rem 1rem 0 1rem;
+            padding: 12px 16px 0;
         }
 
         .video-cat {
-            font-size: 0.7rem;
+            height: 18px;
+            font-size: 12px;
+            line-height: 18px;
             font-weight: 600;
             color: var(--text-muted);
-            margin-bottom: 0.15rem;
+            margin-bottom: 2px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
 
         .video-title {
-            font-size: 0.95rem;
+            font-size: 15px;
+            line-height: 22px;
+            height: 44px;
             font-weight: 600;
-            margin-bottom: 0.25rem;
             color: var(--text-primary);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         .video-desc {
-            font-size: 0.8rem;
+            margin-top: 4px;
+            font-size: 13px;
+            line-height: 20px;
+            height: 40px;
             color: var(--text-secondary);
-            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         .empty-state {
-            padding: 4rem 1.5rem;
+            padding: 64px 24px;
             text-align: center;
             color: var(--text-muted);
-            font-size: 0.85rem;
+            font-size: 14px;
+            line-height: 20px;
         }
 
-        /* Watch view (slides over the list) */
+        /* ---------- Watch view ---------- */
         .watch-view {
             position: absolute;
             inset: 0;
@@ -373,7 +384,7 @@
             display: flex;
             flex-direction: column;
             transform: translateX(100%);
-            transition: transform 0.3s cubic-bezier(.2, .8, .2, 1);
+            transition: transform 0.28s cubic-bezier(.2, .8, .2, 1);
             visibility: hidden;
         }
 
@@ -384,11 +395,12 @@
 
         .watch-bar {
             flex-shrink: 0;
+            height: 52px;
+            box-sizing: content-box;
+            padding: env(safe-area-inset-top) 8px 0;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.6rem 0.5rem;
-            padding-top: max(0.6rem, env(safe-area-inset-top));
+            gap: 6px;
             border-bottom: 1px solid var(--border-color);
         }
 
@@ -397,7 +409,7 @@
             height: 36px;
             border: none;
             background: none;
-            border-radius: 50%;
+            border-radius: var(--radius);
             display: grid;
             place-items: center;
             cursor: pointer;
@@ -415,15 +427,19 @@
         }
 
         .watch-cat {
-            font-size: 0.8rem;
+            min-width: 0;
+            font-size: 13px;
+            line-height: 20px;
             font-weight: 600;
             color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .watch-scroll {
             flex: 1;
             overflow-y: auto;
-            overscroll-behavior: contain;
             padding-bottom: env(safe-area-inset-bottom);
         }
 
@@ -443,40 +459,51 @@
         }
 
         .watch-info {
-            padding: 1rem 1rem 1.25rem;
+            padding: 16px 16px 20px;
             border-bottom: 1px solid var(--border-color);
         }
 
         .watch-title {
-            font-size: 1.1rem;
+            font-size: 18px;
+            line-height: 26px;
+            min-height: 52px;
             font-weight: 700;
-            letter-spacing: -0.01em;
-            margin-bottom: 0.35rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         .watch-desc {
-            font-size: 0.85rem;
+            margin-top: 6px;
+            font-size: 14px;
+            line-height: 22px;
             color: var(--text-secondary);
-            line-height: 1.6;
         }
+
+        .watch-desc:empty { display: none; }
 
         .watch-nav {
             display: flex;
-            gap: 0.5rem;
-            margin-top: 1rem;
+            gap: 8px;
+            margin-top: 16px;
         }
 
         .nav-btn {
             flex: 1;
-            padding: 0.6rem;
-            border-radius: 999px;
+            height: 40px;
+            border-radius: var(--radius);
             border: 1px solid var(--border-color);
             background: var(--bg-main);
             color: var(--text-primary);
-            font-size: 0.78rem;
+            font-size: 13px;
+            line-height: 38px;
             font-weight: 600;
             cursor: pointer;
+            transition: background 0.15s ease;
         }
+
+        .nav-btn:hover:not(:disabled) { background: var(--bg-subtle); }
 
         .nav-btn.primary {
             background: var(--text-primary);
@@ -484,32 +511,32 @@
             border-color: var(--text-primary);
         }
 
+        .nav-btn.primary:hover:not(:disabled) { background: var(--text-secondary); border-color: var(--text-secondary); }
+
         .nav-btn:disabled { opacity: 0.35; cursor: default; }
 
         .up-next-label {
-            padding: 1rem 1rem 0.5rem;
-            font-size: 0.75rem;
+            padding: 16px 16px 8px;
+            font-size: 12px;
+            line-height: 18px;
             font-weight: 700;
-            letter-spacing: 0.04em;
             color: var(--text-muted);
         }
 
         .row-item {
             display: flex;
-            gap: 0.75rem;
-            padding: 0.5rem 1rem;
+            gap: 12px;
+            padding: 8px 16px;
             cursor: pointer;
         }
 
         .row-item:hover { background: var(--bg-hover); }
-
         .row-item.current { background: var(--bg-subtle); }
 
         .row-thumb {
-            position: relative;
-            flex: 0 0 140px;
+            flex: 0 0 136px;
             aspect-ratio: 16 / 9;
-            border-radius: 8px;
+            border-radius: 4px;
             overflow: hidden;
             background: var(--bg-subtle);
         }
@@ -518,14 +545,16 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            display: block;
         }
 
-        .row-text { min-width: 0; padding-top: 0.1rem; }
+        .row-text { flex: 1; min-width: 0; }
 
         .row-title {
-            font-size: 0.85rem;
+            font-size: 14px;
+            line-height: 20px;
+            height: 40px;
             font-weight: 600;
-            line-height: 1.35;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
@@ -533,53 +562,45 @@
         }
 
         .row-meta {
-            font-size: 0.72rem;
+            margin-top: 2px;
+            font-size: 12px;
+            line-height: 18px;
             color: var(--text-muted);
-            margin-top: 0.2rem;
         }
 
-        .now-playing {
-            font-size: 0.68rem;
+        .row-item.current .row-meta {
             font-weight: 700;
             color: var(--text-primary);
         }
 
-        /* Large screens: soft rounded cards inside the column */
+        /* ---------- Large screens ---------- */
         @media (min-width: 769px) {
-            .videos-vertical-stack { padding: 1rem 1rem 3rem; }
-            .thumbnail-box { border-radius: 12px; }
-            .video-info { padding-left: 0.25rem; padding-right: 0.25rem; }
+            .videos-vertical-stack { padding: 16px 16px calc(40px + env(safe-area-inset-bottom)); }
+            .thumbnail-box { border-radius: var(--radius); }
+            .video-info { padding-left: 2px; padding-right: 2px; }
         }
 
-        /* Phones */
+        /* ---------- Phones ---------- */
         @media (max-width: 480px) {
-            .top-bar { padding-top: max(0.7rem, env(safe-area-inset-top)); padding-bottom: 0.7rem; gap: 0.6rem; }
-            .brand-name { font-size: 1rem; }
-            .top-actions { gap: 0.5rem; }
-            .tabs-nav { padding: 0 0.25rem; }
-            .tab-btn { padding: 0.7rem 0.75rem; font-size: 0.78rem; }
-            .tab-btn::after { inset-inline: 0.75rem; }
-            .videos-vertical-stack { gap: 1.25rem; }
-            .video-info { padding: 0.65rem 0.9rem 0; }
-            .video-title { font-size: 0.95rem; line-height: 1.4; }
-            .video-desc { font-size: 0.82rem; }
-            .play-badge { width: 48px; height: 48px; }
-            .watch-info { padding: 0.9rem 0.9rem 1.1rem; }
-            .watch-title { font-size: 1.02rem; line-height: 1.4; }
-            .nav-btn { padding: 0.7rem; font-size: 0.82rem; }
-            .row-item { padding: 0.5rem 0.9rem; gap: 0.65rem; }
+            .top-bar { height: 52px; padding-left: max(14px, env(safe-area-inset-left)); padding-right: max(14px, env(safe-area-inset-right)); }
+            .brand-name { font-size: 15px; gap: 8px; }
+            .brand-mark { width: 24px; height: 24px; }
+            .lang-btn { width: 46px; height: 28px; line-height: 28px; }
+            .videos-vertical-stack { gap: 20px; }
+            .video-info { padding: 10px 14px 0; }
+            .watch-info { padding: 14px 14px 18px; }
+            .watch-title { font-size: 16px; line-height: 24px; min-height: 48px; }
+            .row-item { padding: 8px 14px; gap: 10px; }
             .row-thumb { flex-basis: 120px; }
         }
 
-        /* Very small phones: drop the lesson counter so the bar never wraps */
-        @media (max-width: 370px) {
+        @media (max-width: 400px) {
             .lesson-count { display: none; }
-            .brand-name { font-size: 0.95rem; }
         }
 
         /* Phones in landscape: keep the player fully visible */
         @media (max-height: 500px) and (orientation: landscape) {
-            .player-box { max-height: 70vh; aspect-ratio: auto; height: 70vh; }
+            .player-box { aspect-ratio: auto; height: 70vh; }
         }
     </style>
 </head>
@@ -593,7 +614,7 @@
                     <span id="brandText"></span>
                 </a>
                 <div class="top-actions">
-                    <span class="lesson-count" id="lessonCount" dir="auto"></span>
+                    <span class="lesson-count" id="lessonCount" data-dir></span>
                     <div class="lang-switch" role="group" aria-label="Language">
                         <button class="lang-btn" data-lang="en">EN</button>
                         <button class="lang-btn" data-lang="ar">عربي</button>
@@ -613,17 +634,17 @@
                 </button>
                 <span class="watch-cat" id="watchCat"></span>
             </div>
-            <div class="watch-scroll" id="watchScroll" data-content>
+            <div class="watch-scroll" id="watchScroll">
                 <div class="player-box" id="playerBox"></div>
                 <div class="watch-info">
-                    <h1 class="watch-title" id="watchTitle"></h1>
-                    <p class="watch-desc" id="watchDesc"></p>
+                    <h1 class="watch-title" id="watchTitle" data-dir></h1>
+                    <p class="watch-desc" id="watchDesc" data-dir></p>
                     <div class="watch-nav">
-                        <button class="nav-btn" id="prevBtn"></button>
-                        <button class="nav-btn primary" id="nextBtn"></button>
+                        <button class="nav-btn" id="prevBtn" data-ui="prev"></button>
+                        <button class="nav-btn primary" id="nextBtn" data-ui="next"></button>
                     </div>
                 </div>
-                <div class="up-next-label" id="upNextLabel"></div>
+                <div class="up-next-label" data-ui="inSection" data-dir></div>
                 <div id="playlist"></div>
             </div>
         </section>
@@ -706,6 +727,7 @@ window.ACADEMY = {
                 back: 'رجوع'
             }
         };
+        const LANGS = Object.keys(UI);
 
         const base = A.CUSTOMER_CODE
             ? `https://customer-${A.CUSTOMER_CODE}.cloudflarestream.com`
@@ -720,6 +742,8 @@ window.ACADEMY = {
 
         const byCat = A.categories.map((_, i) => A.videos.filter(v => v.cat === i));
         const panes = [A.videos, ...byCat];
+        const tabLabels = l => [UI[l].all, ...A.categories.map(c => trIn(c, l))];
+        const hasDesc = v => LANGS.some(l => trIn(v.desc, l));
 
         const viewport = document.getElementById('viewport');
         const tabsNav = document.getElementById('tabsNav');
@@ -733,118 +757,157 @@ window.ACADEMY = {
         let currentPane = 0;
         let currentVideo = null;
 
-        // pick the text for the current language (falls back to the other one)
-        const tr = obj => typeof obj === 'string' ? obj : (obj?.[lang] || obj?.en || obj?.ar || '');
-        const t = () => UI[lang];
-        const contentDir = () => lang === 'ar' ? 'rtl' : 'ltr';
+        // text for a given language (falls back to the other one)
+        function trIn(obj, l) {
+            if (typeof obj === 'string') return obj;
+            return obj?.[l] || obj?.en || obj?.ar || '';
+        }
+        const tr = obj => trIn(obj, lang);
 
-        function renderList() {
-            const tabs = [t().all, ...A.categories.map(tr)];
-
-            tabsNav.innerHTML = tabs.map((c, i) =>
-                `<button class="tab-btn${i === currentPane ? ' active' : ''}" data-i="${i}">${esc(c)}</button>`).join('');
+        /*
+         * The DOM is built once. Switching language only swaps text and the
+         * text direction of text blocks; boxes, sizes and positions stay put.
+         * Elements carry what they show:
+         *   data-ui="key"        → UI[lang][key]
+         *   data-lesson="n"      → "Lesson n"
+         *   data-cat="i"         → category name
+         *   data-title / data-desc="video index"
+         *   data-dir             → gets dir="rtl" in Arabic
+         */
+        function buildList() {
+            tabsNav.innerHTML = panes.map((_, i) =>
+                `<button class="tab-btn${i === 0 ? ' active' : ''}" data-i="${i}" ${i ? `data-cat="${i - 1}"` : 'data-ui="all"'}></button>`).join('');
             tabsNav.querySelectorAll('.tab-btn').forEach(btn =>
                 btn.addEventListener('click', () => scrollToPane(+btn.dataset.i)));
 
             viewport.innerHTML = panes.map((list, p) => `
-                <section class="section-pane" data-content>
+                <section class="section-pane">
                     <div class="videos-vertical-stack">
-                        ${list.length ? list.map((v, n) => `
+                        ${list.length ? list.map((v, n) => {
+                            const vi = A.videos.indexOf(v);
+                            return `
                             <a href="#v=${esc(v.id)}" class="video-card">
                                 <div class="thumbnail-box">
                                     <img src="${thumbUrl(v.id, 480)}" alt="" loading="lazy" onerror="this.remove()">
                                     <span class="play-badge"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21"/></svg></span>
-                                    <span class="lesson-no">${esc(t().lesson(n + 1))}</span>
+                                    <span class="lesson-no" data-lesson="${n + 1}"></span>
                                 </div>
-                                <div class="video-info">
-                                    ${p === 0 ? `<div class="video-cat">${esc(tr(A.categories[v.cat]))}</div>` : ''}
-                                    <h3 class="video-title">${esc(tr(v.title))}</h3>
-                                    ${tr(v.desc) ? `<p class="video-desc">${esc(tr(v.desc))}</p>` : ''}
+                                <div class="video-info" data-dir>
+                                    ${p === 0 ? `<div class="video-cat" data-cat="${v.cat}"></div>` : ''}
+                                    <h3 class="video-title" data-title="${vi}"></h3>
+                                    ${hasDesc(v) ? `<p class="video-desc" data-desc="${vi}"></p>` : ''}
                                 </div>
-                            </a>`).join('') : `<div class="empty-state">${esc(t().soon)}</div>`}
+                            </a>`;
+                        }).join('') : `<div class="empty-state" data-ui="soon" data-dir></div>`}
                     </div>
                 </section>`).join('');
-
-            document.querySelectorAll('[data-content]').forEach(el => el.dir = contentDir());
-
-            document.getElementById('lessonCount').textContent = t().count(A.videos.length);
-            document.getElementById('upNextLabel').textContent = t().inSection;
-            document.getElementById('backBtn').setAttribute('aria-label', t().back);
-            document.getElementById('prevBtn').textContent = t().prev;
-            document.getElementById('nextBtn').textContent = t().next;
-
-            jumpToPane(currentPane);
         }
 
-        function setLang(l) {
-            lang = l;
-            try { localStorage.setItem('academy-lang', l); } catch (e) {}
-            // only the language changes; page layout stays left-to-right so nothing jumps around
-            document.documentElement.lang = l;
-            document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === l));
+        function applyTexts(root = document) {
+            const u = UI[lang];
+            root.querySelectorAll('[data-ui]').forEach(el => el.textContent = u[el.dataset.ui]);
+            root.querySelectorAll('[data-lesson]').forEach(el => el.textContent = u.lesson(+el.dataset.lesson));
+            root.querySelectorAll('[data-cat]').forEach(el => el.textContent = tr(A.categories[+el.dataset.cat]));
+            root.querySelectorAll('[data-title]').forEach(el => el.textContent = tr(A.videos[+el.dataset.title].title));
+            root.querySelectorAll('[data-desc]').forEach(el => el.textContent = tr(A.videos[+el.dataset.desc].desc));
+            root.querySelectorAll('[data-dir]').forEach(el => el.dir = lang === 'ar' ? 'rtl' : 'ltr');
+        }
 
-            const scrolls = [...viewport.children].map(p => p.scrollTop);
-            const tabsScroll = tabsNav.scrollLeft;
-            renderList();
-            [...viewport.children].forEach((p, i) => p.scrollTop = scrolls[i] || 0);
-            tabsNav.scrollLeft = tabsScroll;
-            if (currentVideo) openVideo(currentVideo.id, true);
+        function applyLang() {
+            document.documentElement.lang = lang;
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+            document.getElementById('lessonCount').textContent = UI[lang].count(A.videos.length);
+            document.getElementById('backBtn').setAttribute('aria-label', UI[lang].back);
+            applyTexts();
+            if (currentVideo) fillWatchTexts(currentVideo);
             else document.title = A.brand;
         }
 
+        function setLang(l) {
+            if (l === lang) return;
+            lang = l;
+            try { localStorage.setItem('academy-lang', l); } catch (e) {}
+            applyLang();
+        }
+
         document.querySelectorAll('.lang-btn').forEach(b =>
-            b.addEventListener('click', () => b.dataset.lang !== lang && setLang(b.dataset.lang)));
+            b.addEventListener('click', () => setLang(b.dataset.lang)));
 
-        const paneOffset = i => viewport.clientWidth * i;
+        /*
+         * One tab font size for BOTH languages: the largest size at which the
+         * longer of the two label sets still fits the bar. So every tab is
+         * visible and switching language never resizes anything.
+         */
+        function fitTabs() {
+            const MAX = 13, MIN = 10, PAD = 16; // PAD = 8px each side per tab
+            const ctx = document.createElement('canvas').getContext('2d');
+            const cs = getComputedStyle(tabsNav);
+            const avail = tabsNav.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+            ctx.font = `600 ${MAX}px 'IBM Plex Sans Arabic', system-ui, sans-serif`;
+            const need = Math.max(...LANGS.map(l =>
+                tabLabels(l).reduce((w, s) => w + ctx.measureText(s).width, 0)));
+            const n = panes.length;
+            const fs = Math.max(MIN, Math.min(MAX, Math.floor(MAX * (avail - n * PAD - 2) / need * 2) / 2));
+            tabsNav.style.setProperty('--tab-fs', fs + 'px');
+        }
 
+        // ---------- Panes ----------
         function updateActiveTab(index) {
-            if (index === currentPane && tabsNav.querySelector('.tab-btn.active')) return;
             currentPane = index;
             tabsNav.querySelectorAll('.tab-btn').forEach((btn, i) => {
                 btn.classList.toggle('active', i === index);
-                if (i === index) {
-                    const left = btn.offsetLeft - (tabsNav.clientWidth - btn.offsetWidth) / 2;
-                    tabsNav.scrollTo({ left, behavior: 'smooth' });
+                if (i === index && tabsNav.scrollWidth > tabsNav.clientWidth) {
+                    tabsNav.scrollTo({ left: btn.offsetLeft - (tabsNav.clientWidth - btn.offsetWidth) / 2, behavior: 'smooth' });
                 }
             });
         }
 
         function scrollToPane(index) {
-            viewport.scrollTo({ left: paneOffset(index), behavior: 'smooth' });
+            viewport.scrollTo({ left: viewport.clientWidth * index, behavior: 'smooth' });
             updateActiveTab(index);
         }
 
         function jumpToPane(index) {
             viewport.style.scrollBehavior = 'auto';
-            viewport.scrollLeft = paneOffset(index);
+            viewport.scrollLeft = viewport.clientWidth * index;
             viewport.style.scrollBehavior = '';
         }
 
         viewport.addEventListener('scroll', () => {
             const i = Math.round(viewport.scrollLeft / viewport.clientWidth);
             if (i !== currentPane) updateActiveTab(i);
+        }, { passive: true });
+
+        window.addEventListener('resize', () => {
+            fitTabs();
+            jumpToPane(currentPane);
         });
 
-        window.addEventListener('resize', () => jumpToPane(currentPane));
+        // ---------- Watch view ----------
+        function fillWatchTexts(v) {
+            document.getElementById('watchCat').textContent = tr(A.categories[v.cat]);
+            document.getElementById('watchTitle').textContent = tr(v.title);
+            document.getElementById('watchDesc').textContent = tr(v.desc);
+            document.querySelectorAll('.row-item').forEach(r => {
+                r.querySelector('.row-meta').textContent = r.classList.contains('current')
+                    ? UI[lang].nowPlaying : UI[lang].lesson(+r.dataset.n);
+            });
+            document.title = `${tr(v.title)} · ${A.brand}`;
+        }
 
-        // Watch view
-        function openVideo(id, keepPlayer) {
+        function openVideo(id) {
             const v = A.videos.find(x => x.id === id);
             if (!v) return closeVideo();
             const list = byCat[v.cat] || [v];
             const idx = list.indexOf(v);
 
-            if (!keepPlayer || currentVideo !== v) {
+            if (currentVideo !== v) {
                 playerBox.innerHTML = `<iframe src="${embedUrl(v.id)}"
                     allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
                     allowfullscreen></iframe>`;
                 document.getElementById('watchScroll').scrollTop = 0;
             }
             currentVideo = v;
-
-            document.getElementById('watchCat').textContent = tr(A.categories[v.cat]);
-            document.getElementById('watchTitle').textContent = tr(v.title);
-            document.getElementById('watchDesc').textContent = tr(v.desc);
 
             const prev = list[idx - 1], next = list[idx + 1];
             const prevBtn = document.getElementById('prevBtn');
@@ -854,19 +917,20 @@ window.ACADEMY = {
             prevBtn.onclick = () => prev && (location.hash = 'v=' + prev.id);
             nextBtn.onclick = () => next && (location.hash = 'v=' + next.id);
 
-            document.getElementById('playlist').innerHTML = list.map((x, n) => `
-                <div class="row-item${x === v ? ' current' : ''}" data-id="${esc(x.id)}">
+            const playlist = document.getElementById('playlist');
+            playlist.innerHTML = list.map((x, n) => `
+                <div class="row-item${x === v ? ' current' : ''}" data-id="${esc(x.id)}" data-n="${n + 1}">
                     <div class="row-thumb"><img src="${thumbUrl(x.id, 180)}" alt="" loading="lazy" onerror="this.remove()"></div>
-                    <div class="row-text">
-                        <div class="row-title">${esc(tr(x.title))}</div>
-                        <div class="row-meta">${x === v ? `<span class="now-playing">${esc(t().nowPlaying)}</span>` : esc(t().lesson(n + 1))}</div>
+                    <div class="row-text" data-dir>
+                        <div class="row-title" data-title="${A.videos.indexOf(x)}"></div>
+                        <div class="row-meta"></div>
                     </div>
                 </div>`).join('');
-
-            document.querySelectorAll('.row-item').forEach(r =>
+            playlist.querySelectorAll('.row-item').forEach(r =>
                 r.addEventListener('click', () => location.hash = 'v=' + r.dataset.id));
 
-            document.title = `${tr(v.title)} · ${A.brand}`;
+            applyTexts(watchView);
+            fillWatchTexts(v);
             watchView.classList.add('open');
             watchView.setAttribute('aria-hidden', 'false');
         }
@@ -891,8 +955,18 @@ window.ACADEMY = {
             m ? openVideo(m[1]) : closeVideo();
         }
 
+        // ---------- Init ----------
         document.getElementById('brandText').textContent = A.brand;
-        setLang(lang);
+        buildList();
+        applyLang();
+        fitTabs();
+        // make sure both scripts of the font are loaded before measuring
+        if (document.fonts) {
+            Promise.all([
+                document.fonts.load("600 13px 'IBM Plex Sans Arabic'", 'Aa'),
+                document.fonts.load("600 13px 'IBM Plex Sans Arabic'", 'الكل')
+            ]).then(fitTabs, fitTabs);
+        }
         window.addEventListener('hashchange', route);
         route();
     </script>
