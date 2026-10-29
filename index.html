@@ -2,21 +2,38 @@
 <html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Video Courses Platform</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mjalqasmi Academy</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-main: #ffffff;
-            --bg-subtle: #f9f9f9;
+            --bg-subtle: #f4f4f5;
+            --bg-hover: #f9f9f9;
             --border-color: #e5e5e5;
             --border-active: #111111;
             --text-primary: #111111;
             --text-secondary: #666666;
             --text-muted: #888888;
             --bg-outer: #f4f4f5;
+            --shadow: 0 0 30px rgba(0, 0, 0, 0.08);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-main: #0f0f10;
+                --bg-subtle: #1c1c1f;
+                --bg-hover: #161618;
+                --border-color: #26262a;
+                --border-active: #f4f4f5;
+                --text-primary: #f4f4f5;
+                --text-secondary: #a1a1aa;
+                --text-muted: #71717a;
+                --bg-outer: #060607;
+                --shadow: 0 0 30px rgba(0, 0, 0, 0.6);
+            }
         }
 
         * {
@@ -37,23 +54,23 @@
             overflow: hidden;
         }
 
-        /* App Container Fixed to Center with +25% Horizontal Width */
         .app-container {
             width: 100%;
-            max-width: 41.25vw; /* تم تكبير الحجم الأفقي بمقدار الربع من العرض السابق */
-            min-width: 450px; 
+            max-width: 41.25vw;
+            min-width: 450px;
             height: 100vh;
+            height: 100dvh;
             margin: 0 auto;
             background-color: var(--bg-main);
             display: flex;
             flex-direction: column;
             position: relative;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            box-shadow: var(--shadow);
             border-left: 1px solid var(--border-color);
             border-right: 1px solid var(--border-color);
         }
 
-        /* Mobile Responsive Override */
         @media (max-width: 768px) {
             .app-container {
                 max-width: 100%;
@@ -62,7 +79,7 @@
             }
         }
 
-        /* Fixed Top Header */
+        /* Header */
         header {
             flex-shrink: 0;
             background: var(--bg-main);
@@ -73,21 +90,46 @@
         .top-bar {
             padding: 0.9rem 1rem;
             display: flex;
-            justify-content: flex-start;
+            justify-content: space-between;
             align-items: center;
+            gap: 1rem;
         }
 
         .brand-name {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
             font-size: 1.05rem;
             font-weight: 700;
             letter-spacing: -0.02em;
             color: var(--text-primary);
             text-decoration: none;
-            text-align: left;
             white-space: nowrap;
         }
 
-        /* Responsive Fixed Grid Tabs */
+        .brand-mark {
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            background: var(--text-primary);
+            display: grid;
+            place-items: center;
+        }
+
+        .brand-mark svg {
+            width: 10px;
+            height: 10px;
+            fill: var(--bg-main);
+            margin-left: 2px;
+        }
+
+        .lesson-count {
+            font-size: 0.72rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
         .tabs-nav {
             display: flex;
             justify-content: space-between;
@@ -117,22 +159,20 @@
             border-bottom-color: var(--border-active);
         }
 
-        /* Main Viewport for Horizontal Panes */
+        /* Horizontal panes */
         .sections-viewport {
             flex: 1;
             display: flex;
             overflow-x: auto;
+            overflow-y: hidden;
             scroll-snap-type: x mandatory;
             scroll-behavior: smooth;
             scrollbar-width: none;
             width: 100%;
         }
 
-        .sections-viewport::-webkit-scrollbar {
-            display: none;
-        }
+        .sections-viewport::-webkit-scrollbar { display: none; }
 
-        /* Individual Category Pane */
         .section-pane {
             flex: 0 0 100%;
             min-width: 100%;
@@ -140,11 +180,9 @@
             height: 100%;
             scroll-snap-align: start;
             overflow-y: auto;
-            padding: 0;
             background: var(--bg-main);
         }
 
-        /* Vertical Stack for Video Items (YouTube Style) */
         .videos-vertical-stack {
             display: flex;
             flex-direction: column;
@@ -153,7 +191,7 @@
             width: 100%;
         }
 
-        /* YouTube Style Full Width Video Item */
+        /* Video card */
         .video-card {
             width: 100%;
             background: var(--bg-main);
@@ -162,6 +200,7 @@
             color: inherit;
             display: flex;
             flex-direction: column;
+            cursor: pointer;
         }
 
         .thumbnail-box {
@@ -172,14 +211,53 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
         }
 
-        .play-icon {
-            width: 36px;
-            height: 36px;
-            stroke: var(--text-muted);
-            stroke-width: 1.5;
-            fill: none;
+        .thumbnail-box img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .video-card:hover .thumbnail-box img { transform: scale(1.03); }
+
+        .play-badge {
+            position: relative;
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: rgba(17, 17, 17, 0.55);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            display: grid;
+            place-items: center;
+            opacity: 0.9;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .play-badge svg {
+            width: 20px;
+            height: 20px;
+            fill: #fff;
+            margin-left: 3px;
+        }
+
+        .video-card:hover .play-badge { transform: scale(1.08); opacity: 1; }
+
+        .lesson-no {
+            position: absolute;
+            left: 0.6rem;
+            bottom: 0.6rem;
+            background: rgba(0, 0, 0, 0.75);
+            color: #fff;
+            font-size: 0.68rem;
+            font-weight: 600;
+            padding: 0.1rem 0.45rem;
+            border-radius: 4px;
         }
 
         .video-info {
@@ -198,139 +276,397 @@
             color: var(--text-secondary);
             line-height: 1.4;
         }
+
+        .empty-state {
+            padding: 4rem 1.5rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* Watch view (slides over the list) */
+        .watch-view {
+            position: absolute;
+            inset: 0;
+            background: var(--bg-main);
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            transform: translateX(100%);
+            transition: transform 0.3s cubic-bezier(.2, .8, .2, 1);
+            visibility: hidden;
+        }
+
+        .watch-view.open {
+            transform: translateX(0);
+            visibility: visible;
+        }
+
+        .watch-bar {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .back-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: none;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            color: var(--text-primary);
+        }
+
+        .back-btn:hover { background: var(--bg-subtle); }
+
+        .back-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .watch-cat {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .watch-scroll {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .player-box {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #000;
+        }
+
+        .player-box iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .watch-info {
+            padding: 1rem 1rem 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .watch-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            margin-bottom: 0.35rem;
+        }
+
+        .watch-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .watch-nav {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 0.6rem;
+            border-radius: 999px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-main);
+            color: var(--text-primary);
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .nav-btn.primary {
+            background: var(--text-primary);
+            color: var(--bg-main);
+            border-color: var(--text-primary);
+        }
+
+        .nav-btn:disabled { opacity: 0.35; cursor: default; }
+
+        .up-next-label {
+            padding: 1rem 1rem 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-muted);
+        }
+
+        .row-item {
+            display: flex;
+            gap: 0.75rem;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+        }
+
+        .row-item:hover { background: var(--bg-hover); }
+
+        .row-item.current { background: var(--bg-subtle); }
+
+        .row-thumb {
+            position: relative;
+            flex: 0 0 140px;
+            aspect-ratio: 16 / 9;
+            border-radius: 8px;
+            overflow: hidden;
+            background: var(--bg-subtle);
+        }
+
+        .row-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .row-text { min-width: 0; padding-top: 0.1rem; }
+
+        .row-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            line-height: 1.35;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .row-meta {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-top: 0.2rem;
+        }
+
+        .now-playing {
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
     </style>
 </head>
 <body>
 
     <div class="app-container">
-        <!-- Header & Navigation -->
         <header>
             <div class="top-bar">
-                <!-- Brand title aligned to the left -->
-                <a href="#" class="brand-name">mjalqasmi Academy</a>
+                <a href="#" class="brand-name" id="brand">
+                    <span class="brand-mark"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21"/></svg></span>
+                    <span id="brandText"></span>
+                </a>
+                <span class="lesson-count" id="lessonCount"></span>
             </div>
-
-            <!-- Fully Visible Horizontal 4 Tabs Bar -->
-            <nav class="tabs-nav" id="tabsNav">
-                <button class="tab-btn active" onclick="scrollToPane(0)">Cloud & data</button>
-                <button class="tab-btn" onclick="scrollToPane(1)">Cybersecurity</button>
-                <button class="tab-btn" onclick="scrollToPane(2)">Networking</button>
-                <button class="tab-btn" onclick="scrollToPane(3)">Artificial Intelligence</button>
-            </nav>
+            <nav class="tabs-nav" id="tabsNav"></nav>
         </header>
 
-        <!-- Main Viewport (Horizontal Scroll Between Panes) -->
-        <main class="sections-viewport" id="viewport">
+        <main class="sections-viewport" id="viewport"></main>
 
-            <!-- Pane 1: Cloud & Data -->
-            <section class="section-pane">
-                <div class="videos-vertical-stack">
-                    <a href="#" class="video-card">
-                        <div class="thumbnail-box">
-                            <svg class="play-icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                        </div>
-                        <div class="video-info">
-                            <h3 class="video-title">Introduction to Cloud Architecture</h3>
-                            <p class="video-desc">Overview of cloud infrastructure and architectural design fundamentals.</p>
-                        </div>
-                    </a>
-                    <a href="#" class="video-card">
-                        <div class="thumbnail-box">
-                            <svg class="play-icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                        </div>
-                        <div class="video-info">
-                            <h3 class="video-title">Data Warehousing Basics</h3>
-                            <p class="video-desc">How to structure and optimize enterprise data stores in the cloud.</p>
-                        </div>
-                    </a>
+        <!-- Watch view -->
+        <section class="watch-view" id="watchView" aria-hidden="true">
+            <div class="watch-bar">
+                <button class="back-btn" id="backBtn" aria-label="Back">
+                    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <span class="watch-cat" id="watchCat"></span>
+            </div>
+            <div class="watch-scroll" id="watchScroll">
+                <div class="player-box" id="playerBox"></div>
+                <div class="watch-info">
+                    <h1 class="watch-title" id="watchTitle"></h1>
+                    <p class="watch-desc" id="watchDesc"></p>
+                    <div class="watch-nav">
+                        <button class="nav-btn" id="prevBtn">Previous</button>
+                        <button class="nav-btn primary" id="nextBtn">Next lesson</button>
+                    </div>
                 </div>
-            </section>
-
-            <!-- Pane 2: Cybersecurity -->
-            <section class="section-pane">
-                <div class="videos-vertical-stack">
-                    <a href="#" class="video-card">
-                        <div class="thumbnail-box">
-                            <svg class="play-icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                        </div>
-                        <div class="video-info">
-                            <h3 class="video-title">Zero Trust Security Model</h3>
-                            <p class="video-desc">Implementing zero trust policies across enterprise environments.</p>
-                        </div>
-                    </a>
-                    <a href="#" class="video-card">
-                        <div class="thumbnail-box">
-                            <svg class="play-icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                        </div>
-                        <div class="video-info">
-                            <h3 class="video-title">IAM & Access Control</h3>
-                            <p class="video-desc">Managing identity access and security permissions efficiently.</p>
-                        </div>
-                    </a>
-                </div>
-            </section>
-
-            <!-- Pane 3: Networking -->
-            <section class="section-pane">
-                <div class="videos-vertical-stack">
-                    <a href="#" class="video-card">
-                        <div class="thumbnail-box">
-                            <svg class="play-icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                        </div>
-                        <div class="video-info">
-                            <h3 class="video-title">VPC & Cloud Routing</h3>
-                            <p class="video-desc">Designing virtual private networks and cloud routing tables.</p>
-                        </div>
-                    </a>
-                </div>
-            </section>
-
-            <!-- Pane 4: Artificial Intelligence -->
-            <section class="section-pane">
-                <div class="videos-vertical-stack">
-                    <a href="#" class="video-card">
-                        <div class="thumbnail-box">
-                            <svg class="play-icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                        </div>
-                        <div class="video-info">
-                            <h3 class="video-title">Deploying LLMs on Cloud</h3>
-                            <p class="video-desc">Hosting and scaling large language models on cloud servers.</p>
-                        </div>
-                    </a>
-                </div>
-            </section>
-
-        </main>
+                <div class="up-next-label">Lessons in this section</div>
+                <div id="playlist"></div>
+            </div>
+        </section>
     </div>
 
     <script>
+// ============================================================
+//  Academy content — edit this file only to add / remove lessons
+// ============================================================
+//
+//  CUSTOMER_CODE (optional): the "customer-xxxx" part of your Cloudflare
+//  Stream URL, e.g. https://customer-abc123.cloudflarestream.com/...
+//  → put "abc123". Leave empty to use the generic videodelivery.net domain.
+//
+//  Each lesson needs:
+//    id    – Cloudflare Stream video UID (32 hex chars)
+//    title – lesson title
+//    desc  – short description (optional)
+//    cat   – index of the category below (0, 1, 2, 3 ...)
+//            (an "All" tab showing every lesson is added automatically)
+
+window.ACADEMY = {
+  brand: "mjalqasmi Academy",
+
+  CUSTOMER_CODE: "",
+
+  categories: [
+    "Cloud & data",
+    "Cybersecurity",
+    "Networking",
+    "AI"
+  ],
+
+  videos: [
+    { id: "3cd7c0e565cb68a313036a236b6938a3", title: "Enterprise Database Administration & Query Optimization", desc: "", cat: 0 },
+    { id: "89e47436f0c7a561ce3454b89acb07e5", title: "Automated Disaster Recovery & Encrypted Cloud Backups", desc: "", cat: 0 },
+    { id: "892a776d25f5e8b350380b27a7f5e168", title: "Digital Media Forensics & EXIF Metadata Management", desc: "", cat: 1 },
+  ]
+};
+    </script>
+    <script>
+        const A = window.ACADEMY;
+        const base = A.CUSTOMER_CODE
+            ? `https://customer-${A.CUSTOMER_CODE}.cloudflarestream.com`
+            : 'https://videodelivery.net';
+
+        const thumbUrl = (id, h = 360) => `${base}/${id}/thumbnails/thumbnail.jpg?time=2s&height=${h}`;
+        const embedUrl = id => A.CUSTOMER_CODE
+            ? `${base}/${id}/iframe?autoplay=true&preload=auto`
+            : `https://iframe.videodelivery.net/${id}?autoplay=true&preload=auto`;
+
+        const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+        const byCat = A.categories.map((_, i) => A.videos.filter(v => v.cat === i));
+        const tabs = ['All', ...A.categories];
+        const panes = [A.videos, ...byCat];
+
         const viewport = document.getElementById('viewport');
-        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabsNav = document.getElementById('tabsNav');
+        const watchView = document.getElementById('watchView');
+        const playerBox = document.getElementById('playerBox');
+
+        document.title = A.brand;
+        document.getElementById('brandText').textContent = A.brand;
+        document.getElementById('lessonCount').textContent =
+            `${A.videos.length} lesson${A.videos.length === 1 ? '' : 's'}`;
+
+        // Tabs + panes
+        tabsNav.innerHTML = tabs.map((c, i) =>
+            `<button class="tab-btn${i === 0 ? ' active' : ''}" data-i="${i}">${esc(c)}</button>`).join('');
+
+        viewport.innerHTML = panes.map(list => `
+            <section class="section-pane">
+                <div class="videos-vertical-stack">
+                    ${list.length ? list.map((v, n) => `
+                        <a href="#v=${esc(v.id)}" class="video-card">
+                            <div class="thumbnail-box">
+                                <img src="${thumbUrl(v.id, 480)}" alt="" loading="lazy" onerror="this.remove()">
+                                <span class="play-badge"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21"/></svg></span>
+                                <span class="lesson-no">Lesson ${n + 1}</span>
+                            </div>
+                            <div class="video-info">
+                                <h3 class="video-title">${esc(v.title)}</h3>
+                                ${v.desc ? `<p class="video-desc">${esc(v.desc)}</p>` : ''}
+                            </div>
+                        </a>`).join('') : `<div class="empty-state">Lessons coming soon.</div>`}
+                </div>
+            </section>`).join('');
+
+        const tabBtns = tabsNav.querySelectorAll('.tab-btn');
+
+        function updateActiveTab(index) {
+            tabBtns.forEach((btn, i) => btn.classList.toggle('active', i === index));
+        }
 
         function scrollToPane(index) {
-            const paneWidth = viewport.clientWidth;
-            viewport.scrollTo({
-                left: paneWidth * index,
-                behavior: 'smooth'
-            });
+            viewport.scrollTo({ left: viewport.clientWidth * index, behavior: 'smooth' });
             updateActiveTab(index);
         }
 
+        tabBtns.forEach(btn => btn.addEventListener('click', () => scrollToPane(+btn.dataset.i)));
+
         viewport.addEventListener('scroll', () => {
-            const paneWidth = viewport.clientWidth;
-            const currentIndex = Math.round(viewport.scrollLeft / paneWidth);
-            updateActiveTab(currentIndex);
+            updateActiveTab(Math.round(viewport.scrollLeft / viewport.clientWidth));
         });
 
-        function updateActiveTab(index) {
-            tabBtns.forEach((btn, i) => {
-                if(i === index) {
-                    btn.classList.add('active');
-                } else {
-                    btn.classList.remove('active');
-                }
-            });
+        // Watch view
+        function openVideo(id) {
+            const v = A.videos.find(x => x.id === id);
+            if (!v) return closeVideo();
+            const list = byCat[v.cat] || [v];
+            const idx = list.indexOf(v);
+
+            playerBox.innerHTML = `<iframe src="${embedUrl(v.id)}" loading="lazy"
+                allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+                allowfullscreen></iframe>`;
+
+            document.getElementById('watchCat').textContent = A.categories[v.cat] || '';
+            document.getElementById('watchTitle').textContent = v.title;
+            document.getElementById('watchDesc').textContent = v.desc || '';
+
+            const prev = list[idx - 1], next = list[idx + 1];
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            prevBtn.disabled = !prev;
+            nextBtn.disabled = !next;
+            prevBtn.onclick = () => prev && (location.hash = 'v=' + prev.id);
+            nextBtn.onclick = () => next && (location.hash = 'v=' + next.id);
+
+            document.getElementById('playlist').innerHTML = list.map((x, n) => `
+                <div class="row-item${x === v ? ' current' : ''}" data-id="${esc(x.id)}">
+                    <div class="row-thumb"><img src="${thumbUrl(x.id, 180)}" alt="" loading="lazy" onerror="this.remove()"></div>
+                    <div class="row-text">
+                        <div class="row-title">${esc(x.title)}</div>
+                        <div class="row-meta">${x === v ? '<span class="now-playing">Now playing</span>' : `Lesson ${n + 1}`}</div>
+                    </div>
+                </div>`).join('');
+
+            document.querySelectorAll('.row-item').forEach(r =>
+                r.addEventListener('click', () => location.hash = 'v=' + r.dataset.id));
+
+            document.title = `${v.title} · ${A.brand}`;
+            document.getElementById('watchScroll').scrollTop = 0;
+            watchView.classList.add('open');
+            watchView.setAttribute('aria-hidden', 'false');
         }
+
+        function closeVideo() {
+            watchView.classList.remove('open');
+            watchView.setAttribute('aria-hidden', 'true');
+            playerBox.innerHTML = '';
+            document.title = A.brand;
+        }
+
+        document.getElementById('backBtn').addEventListener('click', () => {
+            location.hash = '';
+        });
+
+        document.getElementById('brand').addEventListener('click', e => {
+            e.preventDefault();
+            location.hash = '';
+        });
+
+        function route() {
+            const m = location.hash.match(/^#v=([\w-]+)/);
+            m ? openVideo(m[1]) : closeVideo();
+        }
+
+        window.addEventListener('hashchange', route);
+        route();
     </script>
 </body>
 </html>
