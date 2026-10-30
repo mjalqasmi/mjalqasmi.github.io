@@ -474,6 +474,61 @@
             border: none;
         }
 
+        /* custom poster shown over the player until the learner presses play */
+        .player-poster {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            border: none;
+            padding: 0;
+            background: #000;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            transition: opacity 0.25s ease, visibility 0.25s ease;
+        }
+
+        .player-poster img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .player-poster .play-badge {
+            width: 64px;
+            height: 64px;
+            opacity: 1;
+            transition: background 0.15s ease;
+        }
+
+        .player-poster .play-badge svg { width: 22px; height: 22px; }
+        .player-poster:hover .play-badge,
+        .player-poster:focus-visible .play-badge { background: rgba(17, 24, 39, 0.88); }
+
+        .player-poster.loading { cursor: default; }
+        .player-poster.loading .play-badge svg { display: none; }
+        .player-poster.loading .play-badge::after {
+            content: "";
+            width: 24px;
+            height: 24px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: poster-spin 0.8s linear infinite;
+        }
+
+        .player-poster.hide {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        @keyframes poster-spin { to { transform: rotate(360deg); } }
+
         .watch-info {
             padding: 16px 16px 20px;
             border-bottom: 1px solid var(--border-color);
@@ -681,11 +736,15 @@
 //    desc  – short description in both languages (optional)
 //    cat   – index of the category below (0, 1, 2, 3 ...)
 //            (an "All" tab showing every lesson is added automatically)
+//    poster – image file name inside POSTER_DIR used as the lesson cover
+//             (optional; falls back to the Cloudflare Stream thumbnail)
 
 window.ACADEMY = {
   brand: "mjalqasmi Academy",
 
   CUSTOMER_CODE: "",
+
+  POSTER_DIR: "الصور المصغرة",
 
   categories: [
     { en: "Cloud & data",  ar: "السحابة والبيانات" },
@@ -699,19 +758,29 @@ window.ACADEMY = {
       id: "3cd7c0e565cb68a313036a236b6938a3",
       title: { en: "Enterprise Database Administration & Query Optimization", ar: "إدارة قواعد البيانات المؤسسية وتحسين الاستعلامات" },
       desc:  { en: "", ar: "" },
-      cat: 0
+      cat: 0,
+      poster: "Enterprise Database Administration & Query Optimization.png"
     },
     {
       id: "89e47436f0c7a561ce3454b89acb07e5",
       title: { en: "Automated Disaster Recovery & Encrypted Cloud Backups", ar: "التعافي الآلي من الكوارث والنسخ الاحتياطي السحابي المشفّر" },
       desc:  { en: "", ar: "" },
-      cat: 0
+      cat: 0,
+      poster: "Automated Disaster Recovery & Encrypted Cloud Backups.png"
     },
     {
       id: "892a776d25f5e8b350380b27a7f5e168",
       title: { en: "Digital Media Forensics & EXIF Metadata Management", ar: "التحليل الجنائي للوسائط الرقمية وإدارة بيانات EXIF الوصفية" },
       desc:  { en: "", ar: "" },
-      cat: 1
+      cat: 1,
+      poster: "Digital Media Forensics - Stripping & Manipulating EXIF-Metadata.png"
+    },
+    {
+      id: "9fec3461846d95409ba6c74f42b1a419",
+      title: { en: "Network Latency Diagnostics & Routing Analysis with MTR", ar: "تشخيص زمن الاستجابة في الشبكات وتحليل التوجيه باستخدام MTR" },
+      desc:  { en: "", ar: "" },
+      cat: 2,
+      poster: "Network Latency Diagnostics & Routing Analysis with MTR.png"
     },
   ]
 };
@@ -729,7 +798,8 @@ window.ACADEMY = {
                 inSection: 'Lessons in this section',
                 nowPlaying: 'Now playing',
                 soon: 'Lessons coming soon.',
-                back: 'Back'
+                back: 'Back',
+                play: 'Play video'
             },
             ar: {
                 all: 'الكل',
@@ -740,7 +810,8 @@ window.ACADEMY = {
                 inSection: 'دروس هذا القسم',
                 nowPlaying: 'قيد التشغيل',
                 soon: 'الدروس قادمة قريباً.',
-                back: 'رجوع'
+                back: 'رجوع',
+                play: 'تشغيل الفيديو'
             }
         };
         const LANGS = Object.keys(UI);
@@ -750,9 +821,20 @@ window.ACADEMY = {
             : 'https://videodelivery.net';
 
         const thumbUrl = (id, h = 360) => `${base}/${id}/thumbnails/thumbnail.jpg?time=2s&height=${h}`;
-        const embedUrl = id => A.CUSTOMER_CODE
-            ? `${base}/${id}/iframe?autoplay=true&preload=auto`
-            : `https://iframe.videodelivery.net/${id}?autoplay=true&preload=auto`;
+        const embedOrigin = A.CUSTOMER_CODE ? base : 'https://iframe.videodelivery.net';
+
+        // lesson cover: local poster image if set, otherwise the Cloudflare thumbnail
+        const posterPath = file => [A.POSTER_DIR, file].filter(Boolean).map(encodeURIComponent).join('/');
+        const coverUrl = (v, h) => v.poster ? posterPath(v.poster) : thumbUrl(v.id, h);
+        // the Stream player can only fetch the poster when the page is served over http(s)
+        const playerPoster = v => v.poster && /^https?:$/.test(location.protocol)
+            ? new URL(posterPath(v.poster), location.href).href : '';
+
+        const embedUrl = v => {
+            const poster = playerPoster(v);
+            const q = `autoplay=true&preload=auto${poster ? `&poster=${encodeURIComponent(poster)}` : ''}`;
+            return A.CUSTOMER_CODE ? `${base}/${v.id}/iframe?${q}` : `${embedOrigin}/${v.id}?${q}`;
+        };
 
         const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
@@ -805,7 +887,7 @@ window.ACADEMY = {
                             return `
                             <a href="#v=${esc(v.id)}" class="video-card">
                                 <div class="thumbnail-box">
-                                    <img src="${thumbUrl(v.id, 480)}" alt="" loading="lazy" onerror="this.remove()">
+                                    <img src="${esc(coverUrl(v, 480))}" alt="" loading="lazy" decoding="async" onerror="this.remove()">
                                     <span class="play-badge"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21"/></svg></span>
                                     <span class="lesson-no" data-lesson="${n + 1}"></span>
                                 </div>
@@ -976,7 +1058,35 @@ window.ACADEMY = {
                 r.querySelector('.row-meta').textContent = r.classList.contains('current')
                     ? UI[lang].nowPlaying : UI[lang].lesson(+r.dataset.n);
             });
+            playerBox.querySelector('.player-poster')?.setAttribute('aria-label', UI[lang].play);
             document.title = `${tr(v.title)} · ${A.brand}`;
+        }
+
+        // open the connections to Cloudflare early so the player starts fast on click
+        let playerWarmed = false;
+        function warmUpPlayer() {
+            if (playerWarmed) return;
+            playerWarmed = true;
+            new Set([embedOrigin, base]).forEach(href => {
+                const link = document.createElement('link');
+                link.rel = 'preconnect';
+                link.href = href;
+                document.head.appendChild(link);
+            });
+        }
+
+        // The poster stays on top until the player iframe has loaded, then fades out
+        function startPlayer(v, poster) {
+            if (currentVideo !== v || !poster.isConnected || poster.classList.contains('loading')) return;
+            poster.classList.add('loading');
+            const frame = document.createElement('iframe');
+            frame.allow = 'accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;';
+            frame.allowFullscreen = true;
+            const reveal = () => poster.classList.add('hide');
+            frame.addEventListener('load', reveal, { once: true });
+            setTimeout(reveal, 6000);
+            frame.src = embedUrl(v);
+            playerBox.insertBefore(frame, poster);
         }
 
         function openVideo(id) {
@@ -986,9 +1096,13 @@ window.ACADEMY = {
             const idx = list.indexOf(v);
 
             if (currentVideo !== v) {
-                playerBox.innerHTML = `<iframe src="${embedUrl(v.id)}"
-                    allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-                    allowfullscreen></iframe>`;
+                playerBox.innerHTML = `<button class="player-poster" type="button">
+                    <img src="${esc(coverUrl(v, 720))}" alt="" decoding="async" onerror="this.remove()">
+                    <span class="play-badge"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21"/></svg></span>
+                </button>`;
+                const poster = playerBox.firstElementChild;
+                poster.addEventListener('click', () => startPlayer(v, poster));
+                warmUpPlayer();
                 document.getElementById('watchScroll').scrollTop = 0;
             }
             currentVideo = v;
@@ -1004,7 +1118,7 @@ window.ACADEMY = {
             const playlist = document.getElementById('playlist');
             playlist.innerHTML = list.map((x, n) => `
                 <div class="row-item${x === v ? ' current' : ''}" data-id="${esc(x.id)}" data-n="${n + 1}">
-                    <div class="row-thumb"><img src="${thumbUrl(x.id, 180)}" alt="" loading="lazy" onerror="this.remove()"></div>
+                    <div class="row-thumb"><img src="${esc(coverUrl(x, 180))}" alt="" loading="lazy" decoding="async" onerror="this.remove()"></div>
                     <div class="row-text" data-dir>
                         <div class="row-title" data-title="${A.videos.indexOf(x)}"></div>
                         <div class="row-meta"></div>
