@@ -4,39 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>mjalqasmi Academy</title>
+    <meta name="theme-color" content="#050505">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- One family for both languages (Latin + Arabic) so sizes never change on switch -->
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-main: #ffffff;
-            --bg-subtle: #f3f4f6;
-            --bg-hover: #f9fafb;
-            --border-color: #e5e7eb;
-            --border-active: #111827;
-            --text-primary: #111827;
-            --text-secondary: #4b5563;
-            --text-muted: #6b7280;
-            --bg-outer: #f3f4f6;
-            --shadow: 0 0 0 1px rgba(17, 24, 39, 0.04), 0 8px 30px rgba(17, 24, 39, 0.06);
+            /* same palette as the portfolio — always dark */
+            --bg-main: #050505;
+            --bg-subtle: #121214;
+            --bg-hover: #0c0c0d;
+            --border-color: rgba(255, 255, 255, 0.09);
+            --border-active: #ffffff;
+            --text-primary: #f5f5f5;
+            --text-secondary: #9a9a9f;
+            --text-muted: #6a6a72;
+            --bg-outer: #000000;
+            --shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 40px 120px -30px rgba(0, 0, 0, 0.9);
             --radius: 6px;
             --tab-fs: 13px;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-main: #0d0f12;
-                --bg-subtle: #1a1d22;
-                --bg-hover: #14171b;
-                --border-color: #262a31;
-                --border-active: #f3f4f6;
-                --text-primary: #f3f4f6;
-                --text-secondary: #a8b0bc;
-                --text-muted: #7c8592;
-                --bg-outer: #07080a;
-                --shadow: 0 0 0 1px rgba(0, 0, 0, 0.4), 0 8px 30px rgba(0, 0, 0, 0.5);
-            }
+            color-scheme: dark;
         }
 
         * {
@@ -672,6 +660,118 @@
         /* Phones in landscape: keep the player fully visible */
         @media (max-height: 500px) and (orientation: landscape) {
             .player-box { aspect-ratio: auto; height: 70vh; }
+        }
+
+        /* =====================================================
+           Portfolio skin — colours, borders and finish only.
+           No sizes, layout, scrolling or transitions are changed.
+           ===================================================== */
+        ::selection { background: #fff; color: #000; }
+
+        html, body {
+            background-color: #000;
+            background-image:
+                radial-gradient(60% 50% at 50% 0%, rgba(255, 255, 255, 0.07), transparent 70%),
+                radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1.2px);
+            background-size: 100% 100%, 30px 30px;
+            background-attachment: fixed;
+        }
+
+        .app-container { background-color: var(--bg-main); }
+
+        header { background: rgba(5, 5, 5, 0.92); }
+
+        .brand-name { letter-spacing: 0.14em; text-transform: uppercase; font-size: 14px; }
+        #brandText { font-weight: 700; }
+        .brand-mark { background: #fff; border-radius: 7px; }
+        .brand-mark svg { fill: #000; }
+
+        .lesson-count { color: var(--text-muted); }
+
+        .lang-switch { border-color: rgba(255, 255, 255, 0.16); border-radius: 999px; }
+        .lang-btn { background: transparent; color: var(--text-secondary); }
+        .lang-btn + .lang-btn { border-left-color: rgba(255, 255, 255, 0.16); }
+        .lang-btn.active { background: #fff; color: #000; }
+
+        .tabs-nav { border-top-color: var(--border-color); }
+        .tab-btn { color: var(--text-muted); }
+        .tab-btn:hover { color: var(--text-secondary); }
+        .tab-btn.active { color: #fff; }
+        .tab-btn.active::after { background: #fff; box-shadow: 0 0 10px rgba(255, 255, 255, 0.55); }
+
+        .section-pane {
+            background: var(--bg-main);
+            scrollbar-color: #2a2a2d transparent;
+        }
+
+        /* video cards */
+        .thumbnail-box { background: #0c0c0d; }
+        .thumbnail-box::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            pointer-events: none;
+        }
+        .video-card:hover .thumbnail-box::after { border-color: rgba(255, 255, 255, 0.22); }
+
+        .play-badge {
+            background: rgba(0, 0, 0, 0.55);
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25) inset;
+            -webkit-backdrop-filter: blur(6px);
+            backdrop-filter: blur(6px);
+        }
+
+        .lesson-no {
+            background: rgba(0, 0, 0, 0.72);
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18) inset;
+            border-radius: 999px;
+            -webkit-backdrop-filter: blur(6px);
+            backdrop-filter: blur(6px);
+        }
+
+        .video-cat { color: var(--text-muted); }
+        .video-title { color: #fff; }
+        .video-desc { color: var(--text-secondary); }
+
+        /* watch view */
+        .watch-view { background: var(--bg-main); }
+        .watch-bar { background: rgba(5, 5, 5, 0.92); }
+        .back-btn { color: #fff; border-radius: 999px; }
+        .back-btn:hover { background: rgba(255, 255, 255, 0.06); }
+        .watch-scroll { scrollbar-color: #2a2a2d transparent; }
+        .player-box { background: #000; }
+        .player-poster .play-badge { background: rgba(0, 0, 0, 0.55); }
+        .player-poster:hover .play-badge,
+        .player-poster:focus-visible .play-badge { background: rgba(255, 255, 255, 0.16); }
+
+        .nav-btn {
+            border-radius: 999px;
+            border-color: rgba(255, 255, 255, 0.16);
+            background: transparent;
+            color: #fff;
+        }
+        .nav-btn:hover:not(:disabled) { background: rgba(255, 255, 255, 0.06); border-color: #fff; }
+        .nav-btn.primary { background: #fff; color: #000; border-color: #fff; }
+        .nav-btn.primary:hover:not(:disabled) { background: #e6e6e6; border-color: #e6e6e6; }
+
+        .up-next-label { color: var(--text-muted); letter-spacing: 0.06em; }
+        .row-item:hover { background: rgba(255, 255, 255, 0.035); }
+        .row-item.current { background: rgba(255, 255, 255, 0.06); }
+        .row-thumb { border-radius: 8px; background: #0c0c0d; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08); }
+        .row-item.current .row-meta { color: #fff; }
+
+        @media (min-width: 769px) {
+            .thumbnail-box { border-radius: 14px; }
+        }
+
+        @media (max-width: 480px) {
+            .brand-name { font-size: 13px; letter-spacing: 0.07em; }
+        }
+
+        @media (max-width: 340px) {
+            .brand-name { font-size: 12.5px; letter-spacing: 0.03em; }
         }
     </style>
 </head>
