@@ -173,6 +173,7 @@ html[dir="rtl"] .card:hover .card-go{transform:rotate(45deg)}
 html[lang="ar"] .card h3{letter-spacing:0}
 .card p{color:var(--muted);font-size:15.5px}
 .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.card .tags{margin-bottom:26px}
 .tags span{font-family:var(--mono);font-size:11.5px;color:#cfcfd3;border:1px solid var(--line);background:rgba(255,255,255,.025);padding:5px 10px;border-radius:999px;direction:ltr}
 .card-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:auto;padding-top:26px;border-top:1px dashed var(--line);font-size:13px}
 .card-foot .repo{display:inline-flex;align-items:center;gap:8px;color:var(--text);font-weight:500}
@@ -336,7 +337,8 @@ html[lang="ar"] .det-info h4{letter-spacing:0;font-size:13.5px}
 .meta{display:grid;grid-template-columns:repeat(3,auto);justify-content:start;gap:12px 32px;margin-top:26px;padding-top:20px;border-top:1px dashed var(--line)}
 .meta dt{font-size:12px;color:var(--dim)}
 .meta dd{font-size:14px;color:var(--text);font-weight:500;margin-top:2px}
-.private{margin-top:22px;font-size:12px;color:var(--dim)}
+.private{margin-top:22px;font-size:12.5px;color:var(--dim);line-height:1.8}
+.det-info ul.tasks li::before{background:transparent;border:1.5px solid #fff;width:5px;height:5px}
 html[lang="ar"] .private{font-family:var(--arabic);font-size:13px}
 .cert-sub{display:block;font-size:13.5px;color:var(--muted);margin-top:4px}
 @media (max-width:900px){
@@ -642,25 +644,34 @@ const PROJECTS = {
       icon: 'academy',
       title:  { en: 'GPA Academy', ar: 'GPA Academy' },
       desc:   {
-        en: 'A complete learning platform built for an educational institution — courses, learners and content management in one place.',
-        ar: 'منصة تعليمية متكاملة مبنية لمؤسسة تعليمية، تجمع الدورات والمتعلمين وإدارة المحتوى في مكان واحد.'
+        en: 'A bilingual e-learning platform for university students — courses by major, secure payments and an AI study assistant.',
+        ar: 'منصة تعليم إلكتروني ثنائية اللغة لطلاب الجامعات، تجمع مقررات التخصص والدفع الآمن ومساعداً دراسياً ذكياً.'
       },
-      tags:   ['Web Platform', 'E-Learning', 'Full-Stack'],
+      tags:   ['E-Learning', 'Payments', 'AI Assistant', 'AR · EN'],
       status: 'wip',   // 'live' or 'wip'
-      video:  '',      // ← Cloudflare Stream video ID
+      video:  '92ad2586815ef916cc6ca12e8f5d6723',   // Cloudflare Stream video ID
       overview: {
-        en: 'An end-to-end digital learning platform that lets the institution publish and manage its courses, organise learners and deliver content through a single, unified system.',
-        ar: 'منصة تعليم رقمية متكاملة تمكّن المؤسسة من نشر دوراتها وإدارتها، وتنظيم المتعلمين، وتقديم المحتوى عبر نظام واحد موحّد.'
+        en: 'Each learner sets up a study profile — country, university, degree and major — and the platform presents the courses of that major. Paid content, secure checkout and an AI study assistant come together in one integrated learning experience.',
+        ar: 'يُعدّ الطالب ملفه الدراسي — الدولة والجامعة والدرجة العلمية والتخصص — فتعرض له المنصة مقررات تخصصه. ويجتمع المحتوى المدفوع والدفع الآمن والمساعد الدراسي الذكي في تجربة تعليمية واحدة متكاملة.'
       },
       features: [
-        { en: 'Course and content management',          ar: 'إدارة الدورات والمحتوى التعليمي' },
-        { en: 'Learner accounts and enrolment',         ar: 'حسابات المتعلمين وإدارة التسجيل' },
-        { en: 'Administration dashboard',               ar: 'لوحة تحكم إدارية' },
-        { en: 'Secure, scalable infrastructure',        ar: 'بنية تقنية آمنة وقابلة للتوسع' }
+        { en: 'Guided study setup: country, level, university, degree and major', ar: 'إعداد دراسي موجّه: الدولة والمرحلة والجامعة والدرجة والتخصص' },
+        { en: 'Courses tailored to each learner’s major', ar: 'مقررات مخصّصة وفق تخصص كل طالب' },
+        { en: 'Flexible pricing — full course or per chapter, with a free preview chapter', ar: 'تسعير مرن — المقرر كاملاً أو لكل وحدة، مع وحدة أولى مجانية للمعاينة' },
+        { en: 'Protected paid content, unlocked instantly after payment', ar: 'حماية المحتوى المدفوع وفتحه فور إتمام الدفع' },
+        { en: 'Secure card checkout with verification code', ar: 'دفع آمن بالبطاقة مع رمز تحقق' },
+        { en: 'Arabic AI study assistant with task-based modes: concept, example, then a check question', ar: 'مساعد دراسي ذكي بالعربية بأوضاع حسب المهمة: المفهوم ثم مثال ثم سؤال للتحقق' },
+        { en: 'Learner account, settings and invoices', ar: 'حساب الطالب والإعدادات والفواتير' }
+      ],
+      tasks: [
+        { en: 'Platform architecture and end-to-end development', ar: 'تصميم معمارية المنصة وتطويرها من البداية إلى النهاية' },
+        { en: 'Payment flow and paid-content access control', ar: 'بناء مسار الدفع والتحكم في الوصول إلى المحتوى المدفوع' },
+        { en: 'Integration of the AI study assistant', ar: 'دمج المساعد الدراسي الذكي في المنصة' },
+        { en: 'Technical advisory to the founding team', ar: 'تقديم الاستشارة التقنية للفريق المؤسس' }
       ],
       meta: [
         { k: { en: 'Role', ar: 'الدور' }, v: { en: 'Technical Founding Advisor', ar: 'المستشار التقني المؤسس' } },
-        { k: { en: 'Type', ar: 'النوع' }, v: { en: 'Education platform', ar: 'منصة تعليمية' } }
+        { k: { en: 'Type', ar: 'النوع' }, v: { en: 'E-learning platform', ar: 'منصة تعليم إلكتروني' } }
       ]
     },
     {
@@ -668,26 +679,40 @@ const PROJECTS = {
       icon: 'ai',
       title:  { en: 'AI Software Builder', ar: 'باني البرمجيات' },
       desc:   {
-        en: 'An AI platform that turns a plain Arabic description into working software — web apps, mobile apps and APIs.',
-        ar: 'منصة ذكاء اصطناعي تحوّل وصفاً عربياً بسيطاً إلى برمجيات تعمل فعلياً: تطبيقات ويب وتطبيقات جوال وواجهات API.'
+        en: 'An AI development environment that turns a written request into a working web app, mobile app or API.',
+        ar: 'بيئة تطوير بالذكاء الاصطناعي تحوّل طلباً مكتوباً إلى تطبيق ويب أو تطبيق جوال أو واجهة API تعمل فعلياً.'
       },
-      tags:   ['AI', 'Code Generation', 'Web · Mobile · API'],
+      tags:   ['AI', 'Code Generation', 'Web · Flutter · API'],
       status: 'wip',
-      video:  '',      // ← Cloudflare Stream video ID
+      video:  '67bc641093f0f28b1cb61d6a0ace5f68',   // Cloudflare Stream video ID
       overview: {
-        en: 'A semi-SaaS platform that converts a requirement written in plain Arabic into a complete, working application — generating the interface, the logic and the API layer automatically.',
-        ar: 'منصة شبه SaaS تحوّل متطلباً مكتوباً بالعربية البسيطة إلى تطبيق كامل يعمل، وتولّد الواجهة والمنطق البرمجي وطبقة الـ API تلقائياً.'
+        en: 'A request written in Arabic or English becomes a complete, working project. The platform refines the request into precise requirements, plans the work, writes the code, installs dependencies, runs the tests and previews the result live — while every sensitive command waits for the user’s approval.',
+        ar: 'يتحوّل الطلب المكتوب بالعربية أو الإنجليزية إلى مشروع كامل يعمل. تحسّن المنصة الطلب إلى متطلبات دقيقة، وتخطط المهام، وتكتب الشيفرة، وتثبّت الحزم، وتشغّل الاختبارات، وتعرض النتيجة مباشرة، مع انتظار موافقة المستخدم قبل أي أمر حساس.'
       },
       features: [
-        { en: 'Arabic natural-language input',          ar: 'إدخال بلغة عربية طبيعية' },
-        { en: 'Generates web and mobile applications',  ar: 'توليد تطبيقات ويب وتطبيقات جوال' },
-        { en: 'Automatic API generation',               ar: 'توليد واجهات API تلقائياً' },
-        { en: 'Ready-to-run output',                    ar: 'مخرجات جاهزة للتشغيل' }
+        { en: 'Refines the request into precise requirements', ar: 'تحسين الطلب وتحويله إلى متطلبات دقيقة' },
+        { en: 'Plans the tasks and executes them step by step', ar: 'تخطيط المهام وتنفيذها واحدة تلو الأخرى' },
+        { en: 'User approval before any terminal command', ar: 'موافقة المستخدم قبل تنفيذ أي أمر في الطرفية' },
+        { en: 'Automatic install, build and testing', ar: 'تثبيت وبناء واختبار تلقائي' },
+        { en: 'Live preview with iterative changes through chat', ar: 'معاينة حية وتعديلات متتالية عبر المحادثة' },
+        { en: 'Web apps, Flutter mobile apps and REST APIs', ar: 'تطبيقات ويب وتطبيقات جوال Flutter وواجهات REST API' },
+        { en: 'AI provider key stored locally on the device', ar: 'حفظ مفتاح مزوّد الذكاء الاصطناعي محلياً على الجهاز' },
+        { en: 'Export of the finished project as an archive', ar: 'تصدير المشروع النهائي كملف مضغوط' }
+      ],
+      tasks: [
+        { en: 'Leading product development and system architecture', ar: 'قيادة تطوير المنتج وتصميم معمارية النظام' },
+        { en: 'Building the AI pipeline: refinement, planning and execution', ar: 'بناء مسار الذكاء الاصطناعي: تحسين الطلب والتخطيط والتنفيذ' },
+        { en: 'Secure command execution with user approvals', ar: 'التنفيذ الآمن للأوامر عبر موافقات المستخدم' },
+        { en: 'Live preview, testing and export workflow', ar: 'المعاينة الحية والاختبار وآلية التصدير' }
       ],
       meta: [
         { k: { en: 'Role', ar: 'الدور' }, v: { en: 'Lead developer', ar: 'قائد التطوير' } },
-        { k: { en: 'Type', ar: 'النوع' }, v: { en: 'AI · Semi-SaaS', ar: 'ذكاء اصطناعي · شبه SaaS' } }
-      ]
+        { k: { en: 'Type', ar: 'النوع' }, v: { en: 'AI development environment', ar: 'بيئة تطوير ذكية' } }
+      ],
+      note: {
+        en: 'The company that owns this platform is not named, out of professional confidentiality.',
+        ar: 'لا يُذكر اسم الشركة المالكة لهذه المنصة التزاماً بالأمانة المهنية.'
+      }
     }
   ],
 
@@ -755,6 +780,7 @@ const STR = {
     status: 'Status',
     videoSoon: 'Project video coming soon',
     privateNote: 'Proprietary project — source code is confidential.',
+    tasks: 'My role & responsibilities',
     live: 'Live',
     wip: 'In development',
     emptyTitle: 'New projects are on the way',
@@ -802,6 +828,7 @@ const STR = {
     status: 'الحالة',
     videoSoon: 'فيديو المشروع قريباً',
     privateNote: 'مشروع خاص بمؤسسة — الشيفرة المصدرية سرية.',
+    tasks: 'دوري ومهامي',
     live: 'متاح',
     wip: 'قيد التطوير',
     emptyTitle: 'مشاريع جديدة في الطريق',
@@ -900,11 +927,12 @@ const CAP = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 9l10-5 10 5
             <h4>${t.overview}</h4>
             <p>${esc(tr(p.overview))}</p>
             ${(p.features || []).length ? `<h4>${t.features}</h4><ul>${p.features.map(f => `<li>${esc(tr(f))}</li>`).join('')}</ul>` : ''}
+            ${(p.tasks || []).length ? `<h4>${t.tasks}</h4><ul class="tasks">${p.tasks.map(f => `<li>${esc(tr(f))}</li>`).join('')}</ul>` : ''}
             <dl class="meta">
               ${(p.meta || []).map(m => `<div><dt>${esc(tr(m.k))}</dt><dd>${esc(tr(m.v))}</dd></div>`).join('')}
               <div><dt>${t.status}</dt><dd>${p.status === 'live' ? t.live : t.wip}</dd></div>
             </dl>
-            <p class="private mono">● ${t.privateNote}</p>
+            <p class="private">● ${t.privateNote}${p.note ? `<br>● ${esc(tr(p.note))}` : ''}</p>
           </div>
         </div></div></div>
       </article>`;
